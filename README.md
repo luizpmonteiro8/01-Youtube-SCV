@@ -1,0 +1,2 @@
+Meu primeiro projeto para youtube, iniciamente criando 2 tabelas com a utilização do nestjs com prisma, frontend com react, angular e vue e mobile com flutter e react native. 
+https://www.youtube.com/watch?v=5DIBAFfZGfo

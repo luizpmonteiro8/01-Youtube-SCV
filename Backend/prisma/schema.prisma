@@ -1,0 +1,29 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Unity {
+  id      BigInt    @id @default(autoincrement())
+  name    String    @unique
+  Product Product[]
+
+  @@map("unity")
+}
+
+model Product {
+  id        BigInt  @id @default(autoincrement())
+  name      String  @unique
+  priceSale Decimal @db.Money
+  unity     Unity   @relation(fields: [unityId], references: [id])
+  unityId   BigInt  @map("unity_id")
+
+  @@map("product")
+}
