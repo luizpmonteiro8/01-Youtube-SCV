@@ -23,7 +23,7 @@ export class ProductController {
       request.query.hasOwnProperty('size') ? request.query.size : 10,
       request.query.hasOwnProperty('sort') ? request.query.sort : 'name',
       request.query.hasOwnProperty('order') ? request.query.order : 'asc',
-      request.query.hasOwnProperty('search') ? request.query.order : '',
+      request.query.hasOwnProperty('search') ? request.query.search : '',
     );
   }
 
