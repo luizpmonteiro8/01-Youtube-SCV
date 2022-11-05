@@ -19,10 +19,11 @@ export const useProductService = () => {
   ) => {
     const url = `${
       process.env.BASEURL + appUrl
-    }/pages?page=${page}&size=${size}&=order=${order}
-    &sort${sort}&search=${search}`;
+    }/pages?page=${page}&size=${size}&order=${order}&sort=${sort}&search=${search}`;
 
     const response: AxiosResponse<ResultType> = await httpClient.get(url);
+
+    return response.data;
   };
 
   const create = async (product: Product) => {

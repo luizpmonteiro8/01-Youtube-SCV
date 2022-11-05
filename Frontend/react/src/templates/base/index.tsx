@@ -1,4 +1,4 @@
-import { Menu } from "../../common/menu";
+import { Menu } from "components/common/menu";
 import * as Styled from "./styles";
 
 type Props = {

@@ -1,8 +1,8 @@
 import * as Styled from "./styles";
 
 import { useEffect } from "react";
-import { UnityList } from "../../../common/pages/unity/list";
-import { Base } from "../../base";
+import { Base } from "templates/base";
+import { UnityListing } from "components/pages/unity/list";
 
 export const UnityListTp = () => {
   useEffect(() => {
@@ -12,7 +12,7 @@ export const UnityListTp = () => {
   return (
     <Base>
       <Styled.Wrapper>
-        <UnityList />
+        <UnityListing />
       </Styled.Wrapper>
     </Base>
   );

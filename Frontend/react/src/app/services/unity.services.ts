@@ -17,17 +17,22 @@ export const useUnityService = () => {
     order = "asc",
     sort = "name"
   ) => {
+    console.log(order);
+
     const url = `${
       process.env.BASEURL + appUrl
-    }/pages?page=${page}&size=${size}&=order=${order}
-    &sort${sort}&search=${search}`;
+    }/pages?page=${page}&size=${size}&order=${order}&sort=${sort}&search=${search}`;
 
     const response: AxiosResponse<ResultType> = await httpClient.get(url);
+
+    return response.data;
   };
 
   const loadUnityById = async (id: number | string) => {
     const url = process.env.BASEURL + appUrl + "/" + id;
-    const response: AxiosResponse<ResultType> = await httpClient.get(url);
+    const response: AxiosResponse<Unity> = await httpClient.get(url);
+
+    return response;
   };
 
   const create = async (unity: Unity) => {
