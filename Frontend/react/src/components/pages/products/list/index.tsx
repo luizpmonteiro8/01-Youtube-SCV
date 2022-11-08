@@ -1,5 +1,5 @@
 import * as Styled from "./styles";
-import { PaginationType, Unity, useUnityService } from "app";
+import { PaginationType, Product, useProductService } from "app";
 import { Button } from "components/common/button";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
@@ -7,9 +7,9 @@ import { Modal } from "components/common/modal";
 import { SnackBar } from "components/common/snackBar";
 import { Paginator } from "components/common/paginator";
 
-export const UnityListing = () => {
+export const ProductListing = () => {
   const router = useRouter();
-  const unityService = useUnityService();
+  const productService = useProductService();
   const [pagination, setPagination] = useState<PaginationType>();
 
   const [search, setSearch] = useState("");
@@ -18,28 +18,30 @@ export const UnityListing = () => {
   const [orderValue, setOrder] = useState("asc");
   const [fieldValue, setField] = useState("id");
 
-  const [unityList, setUnityList] = useState<Unity[]>([]);
-  const [unityDelete, setUnityDelete] = useState<Unity | undefined>(undefined);
+  const [productList, setProductList] = useState<Product[]>([]);
+  const [productDelete, setProductDelete] = useState<Product | undefined>(
+    undefined
+  );
 
   const [message, setMessage] = useState({ text: "" });
 
   useEffect(() => {
-    loadPageUnity(0, size, search, orderValue, fieldValue);
+    loadPageProduct(0, size, search, orderValue, fieldValue);
   }, []);
 
   const onConfirmDelete = () => {
-    unityService
-      .remove(Number(unityDelete?.id))
+    productService
+      .remove(Number(productDelete?.id))
       .then((_) => {
         setMessage({
-          text: `Unidade ${unityDelete?.name} com id: ${unityDelete?.id} removida com sucesso. `,
+          text: `Produto ${productDelete?.name} com id: ${productDelete?.id} removida com sucesso. `,
         });
 
-        const newUnityList = unityList.filter(
-          (item) => item.id !== unityDelete?.id
+        const newProductList = productList.filter(
+          (item) => item.id !== productDelete?.id
         );
-        setUnityList(newUnityList);
-        setUnityDelete(undefined);
+        setProductList(newProductList);
+        setProductDelete(undefined);
       })
       .catch((err) => {
         err.response?.data?.message
@@ -49,17 +51,17 @@ export const UnityListing = () => {
   };
 
   //
-  const loadPageUnity = async (
+  const loadPageProduct = async (
     page: number,
     size: number,
     search: string,
     order: string,
     sort: string
   ) => {
-    await unityService
-      .loadPageUnity(page, size, search, order, sort)
+    await productService
+      .loadPageProduct(page, size, search, order, sort)
       .then((res) => {
-        setUnityList(res.results);
+        setProductList(res.results);
         setPagination(res.pagination);
       });
   };
@@ -67,20 +69,20 @@ export const UnityListing = () => {
   const onClickPaginator = (page: number) => {
     if (page >= 0 && page <= pagination!.lastPage) {
       setPage(page);
-      loadPageUnity(page, size, search, orderValue, fieldValue);
+      loadPageProduct(page, size, search, orderValue, fieldValue);
       window.scrollTo(0, 0);
     }
   };
 
   return (
     <Styled.Wrapper>
-      <h1>Lista de unidades</h1>
+      <h1>Lista de produtos</h1>
       <Styled.RowSpace>
         <Button
           title="Adicionar"
           style="black"
           onClick={() => {
-            router.push("/cadastrar/unidades");
+            router.push("/cadastrar/produtos");
           }}
         />
         <Styled.Search>
@@ -89,7 +91,7 @@ export const UnityListing = () => {
             id="searchInput"
             onChange={(e) => {
               setSearch(e.target.value);
-              loadPageUnity(0, 25, e.target.value, orderValue, fieldValue);
+              loadPageProduct(0, 25, e.target.value, orderValue, fieldValue);
             }}
           />
         </Styled.Search>
@@ -103,15 +105,15 @@ export const UnityListing = () => {
           </tr>
         </thead>
         <tbody>
-          {unityList?.map((item, index) => {
+          {productList?.map((item, index) => {
             return (
-              <tr key={"unityList" + index}>
+              <tr key={"productList" + index}>
                 <td>{item.id}</td>
                 <td>{item.name}</td>
                 <td>
                   <a
                     onClick={() => {
-                      router.push("/cadastrar/unidades?id=" + item.id);
+                      router.push("/cadastrar/produtos?id=" + item.id);
                     }}
                     style={{ marginRight: "15px" }}
                   >
@@ -119,7 +121,7 @@ export const UnityListing = () => {
                   </a>
                   <a
                     onClick={() => {
-                      setUnityDelete(item);
+                      setProductDelete(item);
                       window.scrollTo(0, 0);
                     }}
                   >
@@ -131,12 +133,12 @@ export const UnityListing = () => {
           })}
         </tbody>
       </Styled.Table>
-      {unityDelete != null && (
+      {productDelete != null && (
         <Modal
-          title="Remover unidade"
-          message={`Deseja remover unidade ${unityDelete.name} com id: ${unityDelete.id}?`}
+          title="Remover produto"
+          message={`Deseja remover produto ${productDelete.name} com id: ${productDelete.id}?`}
           onCancel={() => {
-            setUnityDelete(undefined);
+            setProductDelete(undefined);
           }}
           onConfirm={onConfirmDelete}
         />

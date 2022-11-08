@@ -17,13 +17,19 @@ export class ProductRepository {
     const results = await this.prisma.product.findMany({
       skip: page * size,
       take: Number(size),
-      where: { name: { contains: search } },
+      where: { name: { contains: search, mode: 'insensitive' } },
       orderBy: { [sort]: order },
     });
     const totalItems = await this.prisma.product.count({
       where: { name: { contains: search, mode: 'insensitive' } },
     });
     return { results, totalItems };
+  }
+
+  async findById(id: bigint) {
+    return await this.prisma.product.findFirstOrThrow({
+      where: { id },
+    });
   }
 
   async create(createProductDTO: CreateProductDto) {

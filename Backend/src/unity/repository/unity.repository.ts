@@ -17,7 +17,7 @@ export class UnityRepository {
     const results = await this.prisma.unity.findMany({
       skip: page * size,
       take: Number(size),
-      where: { name: { contains: search } },
+      where: { name: { contains: search, mode: 'insensitive' } },
       orderBy: { [sort]: order },
     });
     const totalItems = await this.prisma.unity.count({

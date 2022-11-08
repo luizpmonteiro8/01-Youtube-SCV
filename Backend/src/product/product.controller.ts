@@ -27,6 +27,11 @@ export class ProductController {
     );
   }
 
+  @Get(':id')
+  async findById(@Param('id') id: string) {
+    return await this.productService.findById(BigInt(id));
+  }
+
   @Post()
   async create(@Body() createProductDTO: CreateProductDto) {
     return await this.productService.create(createProductDTO);

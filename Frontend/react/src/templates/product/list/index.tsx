@@ -2,17 +2,17 @@ import * as Styled from "./styles";
 
 import { useEffect } from "react";
 import { Base } from "templates/base";
-import { UnityListing } from "components/pages/unity/list";
+import { ProductListing } from "components/pages/products/list";
 
-export const UnityListTp = () => {
+export const ProductListTp = () => {
   useEffect(() => {
-    document.title = "SCV - Lista de unidades";
+    document.title = "SCV - Lista de produtos";
   }, []);
 
   return (
     <Base>
       <Styled.Wrapper>
-        <UnityListing />
+        <ProductListing />
       </Styled.Wrapper>
     </Base>
   );

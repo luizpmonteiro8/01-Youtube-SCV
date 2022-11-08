@@ -2,17 +2,39 @@ import * as Styled from "./styles";
 
 type Props = {
   title: string;
-  type: "green" | "blue" | "red" | "grey" | "black";
+  type?: "button" | "submit" | "reset";
+  style: "green" | "blue" | "red" | "grey" | "black";
+  onClick?: (e: any) => void;
 };
 
-export const Button = ({ title, type }: Props) => {
+export const Button = ({ title, type = "button", style, onClick }: Props) => {
   return (
     <Styled.Wrapper>
-      {type == "green" && <button className="button button1">{title}</button>}
-      {type == "blue" && <button className="button button2">{title}</button>}
-      {type == "red" && <button className="button button3">{title}</button>}
-      {type == "grey" && <button className="button button4">{title}</button>}
-      {type == "black" && <button className="button button5">{title}</button>}
+      {style == "green" && (
+        <button type={type} className="button button1" onClick={onClick}>
+          {title}
+        </button>
+      )}
+      {style == "blue" && (
+        <button type={type} className="button button2" onClick={onClick}>
+          {title}
+        </button>
+      )}
+      {style == "red" && (
+        <button type={type} className="button button3" onClick={onClick}>
+          {title}
+        </button>
+      )}
+      {style == "grey" && (
+        <button type={type} className="button button4" onClick={onClick}>
+          {title}
+        </button>
+      )}
+      {style == "black" && (
+        <button type={type} className="button button5" onClick={onClick}>
+          {title}
+        </button>
+      )}
     </Styled.Wrapper>
   );
 };

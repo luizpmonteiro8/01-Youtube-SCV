@@ -26,6 +26,13 @@ export const useProductService = () => {
     return response.data;
   };
 
+  const loadProductById = async (id: number | string) => {
+    const url = process.env.BASEURL + appUrl + "/" + id;
+    const response: AxiosResponse<Product> = await httpClient.get(url);
+
+    return response.data;
+  };
+
   const create = async (product: Product) => {
     const url = process.env.BASEURL + appUrl;
 
@@ -58,6 +65,7 @@ export const useProductService = () => {
 
   return {
     loadPageProduct,
+    loadProductById,
     create,
     update,
     remove,

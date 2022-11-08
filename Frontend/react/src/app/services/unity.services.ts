@@ -17,8 +17,6 @@ export const useUnityService = () => {
     order = "asc",
     sort = "name"
   ) => {
-    console.log(order);
-
     const url = `${
       process.env.BASEURL + appUrl
     }/pages?page=${page}&size=${size}&order=${order}&sort=${sort}&search=${search}`;
@@ -32,7 +30,7 @@ export const useUnityService = () => {
     const url = process.env.BASEURL + appUrl + "/" + id;
     const response: AxiosResponse<Unity> = await httpClient.get(url);
 
-    return response;
+    return response.data;
   };
 
   const create = async (unity: Unity) => {

@@ -15,14 +15,14 @@ export const Menu = () => {
           <DropMenu title={"Cadastrar"}>
             <a
               onClick={() => {
-                router.push("/cadastro/unidades");
+                router.push("/cadastrar/unidades");
               }}
             >
               Unidades
             </a>
             <a
               onClick={() => {
-                router.push("/cadastro/produtos");
+                router.push("/cadastrar/produtos");
               }}
             >
               Produtos

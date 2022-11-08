@@ -1,7 +1,7 @@
 import { Unity } from "../unity";
 
 export type PaginationType = {
-  lenght: number;
+  length: number;
   size: number;
   lastPage: number;
   page: number;

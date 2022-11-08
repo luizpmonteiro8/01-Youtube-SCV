@@ -1,18 +1,19 @@
 import * as Styled from "./styles";
 
-import { useEffect } from "react";
 import { Base } from "templates/base";
 import { UnityListing } from "components/pages/unity/list";
+import { UnityRegistration } from "components/pages/unity/registration";
+import { useEffect } from "react";
 
-export const UnityListTp = () => {
+export const UnityRegistrationTp = () => {
   useEffect(() => {
-    document.title = "SCV - Lista de unidades";
+    document.title = "SCV - Cadastro de unidades";
   }, []);
 
   return (
     <Base>
       <Styled.Wrapper>
-        <UnityListing />
+        <UnityRegistration />
       </Styled.Wrapper>
     </Base>
   );

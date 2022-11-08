@@ -1,5 +1,5 @@
 import { UnityListTp } from "templates/unity/list";
 
-export default function UnityList() {
+export default function UnityListPage() {
   return <UnityListTp />;
 }

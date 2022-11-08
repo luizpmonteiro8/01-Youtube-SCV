@@ -37,6 +37,10 @@ export class ProductService {
     };
   }
 
+  async findById(id: bigint) {
+    return await this.repository.findById(id);
+  }
+
   async create(createProductDTO: CreateProductDto) {
     return await this.repository.create(createProductDTO);
   }
