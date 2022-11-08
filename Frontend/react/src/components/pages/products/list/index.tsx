@@ -111,22 +111,25 @@ export const ProductListing = () => {
                 <td>{item.id}</td>
                 <td>{item.name}</td>
                 <td>
-                  <a
-                    onClick={() => {
-                      router.push("/cadastrar/produtos?id=" + item.id);
-                    }}
-                    style={{ marginRight: "15px" }}
-                  >
-                    Editar
-                  </a>
-                  <a
-                    onClick={() => {
-                      setProductDelete(item);
-                      window.scrollTo(0, 0);
-                    }}
-                  >
-                    Remover
-                  </a>
+                  <div style={{ display: "flex", flexWrap: "wrap" }}>
+                    <a
+                      onClick={() => {
+                        router.push("/cadastrar/produtos?id=" + item.id);
+                      }}
+                      style={{ padding: "15px", marginRight: "15px" }}
+                    >
+                      Editar
+                    </a>
+                    <a
+                      onClick={() => {
+                        setProductDelete(item);
+                        window.scrollTo(0, 0);
+                      }}
+                      style={{ padding: "15px" }}
+                    >
+                      Remover
+                    </a>
+                  </div>
                 </td>
               </tr>
             );

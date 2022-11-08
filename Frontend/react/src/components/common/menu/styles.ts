@@ -29,6 +29,10 @@ export const Right = styled.div`
     width: 40%;
     align-items: center;
     justify-content: space-between;
+
+    @media (max-width: 520px) {
+      width: auto;
+    }
   `}
 `;
 

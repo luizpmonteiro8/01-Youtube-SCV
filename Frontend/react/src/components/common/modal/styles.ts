@@ -4,7 +4,7 @@ export const Wrapper = styled.div`
   ${() => css`
     display: flex;
     align-items: center;
-    position: absolute;
+    position: fixed;
     left: 0;
     top: 0;
     height: 100vh;
@@ -25,10 +25,14 @@ export const Content = styled.div`
     padding: 15px;
     margin: 0 auto;
     height: 250px;
-    width: 250px;
+    width: 350px;
     background-color: #fff;
     border-radius: 15px;
     justify-content: space-between;
+
+    p {
+      font-size: 22px;
+    }
   `}
 `;
 

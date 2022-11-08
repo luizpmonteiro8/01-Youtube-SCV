@@ -21,6 +21,7 @@ export const Wrapper = styled.div`
 export const Table = styled.table`
   ${() => css`
     margin-top: 15px;
+    margin: 0 auto;
      {
       font-family: Arial, Helvetica, sans-serif;
       border-collapse: collapse;

@@ -15,11 +15,13 @@ export const Modal = ({ title, message, onConfirm, onCancel }: Props) => {
         <Styled.Title>
           <h2>{title}</h2>
         </Styled.Title>
-        <div>{message}</div>
+        <div>
+          <p>{message}</p>
+        </div>
 
         <Styled.Row>
-          <Button style="black" title="Ok" onClick={onConfirm} />
-          <Button style="red" title="Cancelar" onClick={() => onCancel()} />
+          <Button style="red" title="Ok" onClick={onConfirm} />
+          <Button style="black" title="Cancelar" onClick={() => onCancel()} />
         </Styled.Row>
       </Styled.Content>
     </Styled.Wrapper>
