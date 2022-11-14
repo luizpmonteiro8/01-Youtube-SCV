@@ -11,8 +11,20 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import Collapse from './common/collapse';
+import MenuCollapse from './menu-collapse';
 
-const Menu: () => Node = () => {
+interface ModalProps {
+  modalVisible: boolean;
+  setModalVisible: React.Dispatch<React.SetStateAction<boolean>>;
+  navigation: any;
+}
+
+interface MenuProps {
+  navigation: any;
+}
+
+const Menu: () => Node = ({navigation}: MenuProps) => {
   const [modalVisible, setModalVisible] = useState(false);
 
   return (
@@ -27,25 +39,39 @@ const Menu: () => Node = () => {
             <Icon name="menu" size={50} />
           </TouchableOpacity>
         </View>
-        <Modal
-          animationType="slide"
-          transparent={true}
-          visible={modalVisible}
-          onRequestClose={() => {
-            Alert.alert('Modal has been closed.');
-            setModalVisible(!modalVisible);
-          }}>
-          <View style={styles.Modal}>
-            <TouchableOpacity
-              onPress={() => {
-                setModalVisible(!modalVisible);
-              }}>
-              <Icon name="close" size={50} color="#fff" />
-            </TouchableOpacity>
-          </View>
-        </Modal>
+        <ModalView
+          modalVisible={modalVisible}
+          setModalVisible={setModalVisible}
+          navigation={navigation}
+        />
       </ScrollView>
     </SafeAreaView>
+  );
+};
+
+const ModalView = ({modalVisible, setModalVisible, navigation}: ModalProps) => {
+  return (
+    <Modal
+      animationType="fade"
+      transparent={true}
+      visible={modalVisible}
+      onRequestClose={() => {
+        setModalVisible(!modalVisible);
+      }}>
+      <View style={styles.ModalBody}>
+        <View style={styles.ModalCloseButton}>
+          <TouchableOpacity
+            onPress={() => {
+              setModalVisible(!modalVisible);
+            }}>
+            <Icon name="close" size={50} color="#fff" />
+          </TouchableOpacity>
+        </View>
+        <View>
+          <MenuCollapse navigation={navigation} />
+        </View>
+      </View>
+    </Modal>
   );
 };
 
@@ -63,10 +89,27 @@ const styles = StyleSheet.create({
     fontSize: 35,
     fontWeight: '600',
   },
-  Modal: {
-    backgroundColor: '#000',
+  ModalBody: {
+    backgroundColor: '#191A1B',
     height: '100%',
-    width: '85%',
+  },
+  ModalCloseButton: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+  },
+  ViewCollapse: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  TextCollapse: {
+    padding: 15,
+    fontSize: 18,
+    color: '#fff',
+    borderBottomColor: '#fff',
+    borderBottomWidth: 2,
+    width: '90%',
   },
 });
 

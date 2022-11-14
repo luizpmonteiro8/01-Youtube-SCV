@@ -18,8 +18,12 @@ export class ErrorsInterceptor implements NestInterceptor {
         const code = err.code;
         console.log('code', code);
         console.log(Object.keys(err));
+        console.log('meta', err.meta);
         console.log(err.name);
         console.log(err.response);
+        console.log(Object.keys(context));
+        console.log('args', context.getArgs());
+        console.log('args', context.getArgs()[0].method);
 
         if (err.name.includes('NotFoundError'))
           throw new NotFoundException('Registro não encontrado.');
@@ -37,8 +41,11 @@ export class ErrorsInterceptor implements NestInterceptor {
           case 'P2025':
             throw new NotFoundException('Registro não encontrado.');
           case 'P2003':
-            throw new NotFoundException('Registro externo não encontrado.');
-
+            if (context.getArgs()[0].method == 'DELETE') {
+              throw new NotFoundException('Registro em uso.');
+            } else {
+              throw new NotFoundException('Registro externo não encontrado.');
+            }
           default:
             throw new BadGatewayException();
         }
