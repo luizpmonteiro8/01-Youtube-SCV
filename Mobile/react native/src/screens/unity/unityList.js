@@ -1,17 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, {useEffect, useState} from 'react';
 import type {Node} from 'react';
-import {
-  Alert,
-  SafeAreaView,
-  StyleSheet,
-  Text,
-  TextInput,
-  View,
-} from 'react-native';
+import {SafeAreaView, StyleSheet, TextInput, View} from 'react-native';
 import Menu from '../../components/menu';
 import {useUnityService} from '../../app/services/unity.services';
-
+import Toast from 'react-native-toast-message';
 import {FlatListUnity} from './flat-list';
 import ModalComponent from '../../components/common/modal';
 
@@ -100,11 +93,30 @@ const UnityListScreen: () => Node = ({navigation}) => {
               );
               setUnityList(newList);
               setModalRemove(false);
+              Toast.show({
+                type: 'success',
+                text1: 'Removido',
+                text2: `Unidade:${unityRemove.name} com id: ${unityRemove.id}, removido com sucesso. `,
+              });
             })
             .catch(error => {
               console.log(Object.keys(error.response));
               console.log(error);
               console.log(error.response.data.message);
+              if (error.response.data.message) {
+                Toast.show({
+                  type: 'error',
+                  text1: 'Erro',
+                  text2: `${error.response.data.message}`,
+                });
+              } else {
+                Toast.show({
+                  type: 'error',
+                  text1: 'Erro',
+                  text2: 'Ocorreu um erro inesperado.',
+                });
+              }
+              setModalRemove(false);
             });
         }}
         onCancel={() => setModalRemove(false)}

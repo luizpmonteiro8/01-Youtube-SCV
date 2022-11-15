@@ -12,13 +12,19 @@ const MenuCollapse: () => Node = ({navigation}: Props) => {
   return (
     <View>
       <Collapse title="Cadastro">
-        <TouchableOpacity onPress={() => {}}>
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate('UnityRegistration');
+          }}>
           <View style={styles.ViewCollapse}>
             <Icon name="arrow-right" size={25} color="#fff" />
             <Text style={styles.TextCollapse}>Unidades</Text>
           </View>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => {}}>
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate('ProductRegistration');
+          }}>
           <View style={styles.ViewCollapse}>
             <Icon name="arrow-right" size={25} color="#fff" />
             <Text style={styles.TextCollapse}>Produtos</Text>
