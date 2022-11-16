@@ -98,19 +98,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'flex-end',
   },
-  ViewCollapse: {
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  TextCollapse: {
-    padding: 15,
-    fontSize: 18,
-    color: '#fff',
-    borderBottomColor: '#fff',
-    borderBottomWidth: 2,
-    width: '90%',
-  },
 });
 
 export default Menu;

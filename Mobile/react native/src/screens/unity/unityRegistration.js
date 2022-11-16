@@ -100,6 +100,7 @@ const UnityRegistrationScreen = ({navigation, route}) => {
           value={unity.id}
           onChange={() => {}}
         />
+
         <Input
           label="Nome"
           placeholder="Digite um nome"

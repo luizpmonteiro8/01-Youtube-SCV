@@ -113,8 +113,6 @@ const ProductRegistrationScreen = ({navigation, route}) => {
     }
   };
 
-  console.log(product);
-
   return (
     <ScrollView>
       <View style={styles.MenuView}>
