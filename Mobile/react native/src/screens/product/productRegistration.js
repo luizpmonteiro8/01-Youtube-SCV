@@ -7,40 +7,67 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import {useUnityService} from '../../app/services/unity.services';
+import {useProductService} from '../../app/services/product.services';
 import {Input} from '../../components/common/input';
 import Menu from '../../components/menu';
 import Toast from 'react-native-toast-message';
+import {
+  convertAmericanFromBrazil,
+  convertBraziltoAmerican,
+  formatNumberInScreen,
+} from '../../components/common/util/formatNumber';
 
-const UnityRegistrationScreen = ({navigation, route}) => {
-  const unityService = useUnityService();
-  const [unity, setUnity] = useState({id: null, name: ''});
+const ProductRegistrationScreen = ({navigation, route}) => {
+  const productService = useProductService();
+  const [product, setProduct] = useState({
+    id: null,
+    name: '',
+    priceSale: 0,
+    unityId: -1,
+    unity: {id: null, name: ''},
+  });
   const [touched, setTouched] = useState(false);
-
   useEffect(() => {
-    if (route.params) {
-      setUnity(route.params);
+    if (route.params == undefined) {
+      return;
     }
-  }, []);
+    if (Object.keys(route.params).includes('priceSale')) {
+      const newProduct = route.params;
+      newProduct.priceSale = convertAmericanFromBrazil(newProduct.priceSale);
+      setProduct(newProduct);
+    } else {
+      product.unity = route.params;
+      product.unityId = route.params.id;
+      setProduct({...product});
+    }
+  }, [route.params]);
 
   const handleSubmit = () => {
     setTouched(true);
-    if (unity.name !== '') {
-      saveOrUpdateUnity();
+    if (
+      product.name !== '' &&
+      Number(convertBraziltoAmerican(product.priceSale)) > 0 &&
+      Number(product.unityId) > 0
+    ) {
+      saveOrUpdateProduct();
     }
   };
 
-  const saveOrUpdateUnity = () => {
-    if (Number(unity.id) > 0) {
-      unityService
-        .update(unity)
+  const saveOrUpdateProduct = () => {
+    const productCopy = JSON.parse(JSON.stringify(product));
+    delete productCopy.unity;
+    productCopy.priceSale = convertBraziltoAmerican(product.priceSale);
+
+    if (Number(productCopy.id) > 0) {
+      productService
+        .update(productCopy)
         .then(_ => {
           Toast.show({
             type: 'success',
             text1: 'Atualizado',
             text2: 'Atualizado com sucesso.',
           });
-          navigation.push('UnityList');
+          navigation.push('ProductList');
         })
         .catch(error => {
           if (error.response.data.message) {
@@ -58,14 +85,14 @@ const UnityRegistrationScreen = ({navigation, route}) => {
           }
         });
     } else {
-      delete unity.id;
-      unityService
-        .create(unity)
+      delete productCopy.id;
+      productService
+        .create(productCopy)
         .then(res => {
           Toast.show({
             type: 'success',
             text1: 'Sucesso',
-            text2: `Criado unidade com id:${res.id}.`,
+            text2: `Criado produto com id:${res.id}.`,
           });
         })
         .catch(error => {
@@ -86,6 +113,8 @@ const UnityRegistrationScreen = ({navigation, route}) => {
     }
   };
 
+  console.log(product);
+
   return (
     <ScrollView>
       <View style={styles.MenuView}>
@@ -97,19 +126,47 @@ const UnityRegistrationScreen = ({navigation, route}) => {
           placeholder=""
           error=""
           disabled={true}
-          value={unity.id}
+          value={product.id}
           onChange={() => {}}
         />
         <Input
           label="Nome"
           placeholder="Digite um nome"
-          error={touched && unity.name == '' ? 'Campo obrigatório' : ''}
-          value={unity.name}
+          error={touched && product.name == '' ? 'Campo obrigatório' : ''}
+          value={product.name}
           onChange={e => {
-            unity.name = e;
-            setUnity({...unity});
+            product.name = e;
+            setProduct({...product});
           }}
         />
+        <Input
+          label="Preço de venda"
+          placeholder="Digite um preço de venda"
+          error={
+            touched && Number(convertBraziltoAmerican(product.priceSale)) <= 0
+              ? 'Campo obrigatório'
+              : ''
+          }
+          value={product.priceSale}
+          onChange={e => {
+            product.priceSale = formatNumberInScreen(e);
+            setProduct({...product});
+          }}
+          keyboardType="numeric"
+        />
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate('UnityListSelect');
+          }}>
+          <Input
+            label="Unidade"
+            error={
+              touched && Number(product.unityId) <= 0 ? 'Campo obrigatório' : ''
+            }
+            value={product.unity?.name}
+            disabled={true}
+          />
+        </TouchableOpacity>
       </View>
       <View style={styles.ButtonView}>
         <TouchableOpacity onPress={handleSubmit}>
@@ -117,7 +174,13 @@ const UnityRegistrationScreen = ({navigation, route}) => {
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => {
-            setUnity({id: null, name: ''});
+            setProduct({
+              id: null,
+              name: '',
+              priceSale: 0,
+              unityId: -1,
+              unity: {id: null, name: ''},
+            });
             setTouched(false);
           }}>
           <Text style={styles.ButtonTextCancel}>Limpar</Text>
@@ -150,4 +213,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default UnityRegistrationScreen;
+export default ProductRegistrationScreen;

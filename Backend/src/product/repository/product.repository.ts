@@ -19,6 +19,7 @@ export class ProductRepository {
       take: Number(size),
       where: { name: { contains: search, mode: 'insensitive' } },
       orderBy: { [sort]: order },
+      include: { unity: true },
     });
     const totalItems = await this.prisma.product.count({
       where: { name: { contains: search, mode: 'insensitive' } },

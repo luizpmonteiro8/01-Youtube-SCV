@@ -34,7 +34,7 @@ const MenuCollapse: () => Node = ({navigation}: Props) => {
       <Collapse title="Listagem">
         <TouchableOpacity
           onPress={() => {
-            navigation.navigate('UnityList');
+            navigation.push('UnityList');
           }}>
           <View style={styles.ViewCollapse}>
             <Icon name="arrow-right" size={25} color="#fff" />
@@ -43,7 +43,7 @@ const MenuCollapse: () => Node = ({navigation}: Props) => {
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => {
-            navigation.navigate('ProductList');
+            navigation.push('ProductList');
           }}>
           <View style={styles.ViewCollapse}>
             <Icon name="arrow-right" size={25} color="#fff" />

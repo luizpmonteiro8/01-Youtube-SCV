@@ -2,18 +2,19 @@ import React from 'react';
 import {PureComponent} from 'react';
 import {FlatList, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import {convertAmericanFromBrazil} from '../../components/common/util/formatNumber';
 
-export class FlatListUnity extends PureComponent {
+export class FlatListProduct extends PureComponent {
   render() {
     return (
       <FlatList
-        data={this.props.unityList}
+        data={this.props.productList}
         renderItem={({item, index}) => (
           <RenderItem
             item={item}
             index={index}
             setModalRemoveVisible={this.props.setModalRemoveVisible}
-            setUnityRemove={this.props.setUnityRemove}
+            setProductRemove={this.props.setProductRemove}
             navigation={this.props.navigation}
           />
         )}
@@ -29,24 +30,35 @@ export class FlatListUnity extends PureComponent {
 
 class RenderItem extends PureComponent {
   render() {
+    console.log(this.props.item);
     return (
       <View style={styles.ItemRender} key={this.props.item.id}>
         <View style={styles.BodyItemRender}>
           <TouchableOpacity
             onPress={() => {
-              this.props.navigation.push('UnityRegistration', this.props.item);
+              this.props.navigation.push(
+                'ProductRegistration',
+                this.props.item,
+              );
             }}>
             {/* <Text style={styles.TextItemRender}>Index:{this.props.index}</Text> */}
             <Text style={styles.TextItemRender}>Id:{this.props.item.id}</Text>
             <Text style={styles.TextItemRender}>
               Nome:{this.props.item.name}
             </Text>
+            <Text style={styles.TextItemRender}>
+              Preço de venda: R$
+              {convertAmericanFromBrazil(this.props.item.priceSale)}
+            </Text>
+            <Text style={styles.TextItemRender}>
+              Unidade: {this.props.item.unity.name}
+            </Text>
           </TouchableOpacity>
         </View>
         <View style={styles.ActionItemRender}>
           <TouchableOpacity
             onPress={() => {
-              this.props.setUnityRemove(this.props.item);
+              this.props.setProductRemove(this.props.item);
               this.props.setModalRemoveVisible(true);
             }}>
             <View style={styles.ViewCollapse}>

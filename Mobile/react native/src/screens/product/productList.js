@@ -2,17 +2,17 @@
 import React, {useEffect, useState} from 'react';
 import type {Node} from 'react';
 import {SafeAreaView, StyleSheet, TextInput, View} from 'react-native';
-import Menu from '../../components/menu';
-import {useUnityService} from '../../app/services/unity.services';
 import Toast from 'react-native-toast-message';
-import {FlatListUnity} from './flat-list';
 import ModalComponent from '../../components/common/modal';
+import Menu from '../../components/menu';
+import {FlatListProduct} from './flat-list';
+import {useProductService} from '../../app/services/product.services';
 
-const UnityListScreen: () => Node = ({navigation}) => {
-  const unityService = useUnityService();
-  const [unityList, setUnityList] = useState([]);
+const ProductListScreen: () => Node = ({navigation}) => {
+  const productService = useProductService();
+  const [productList, setProductList] = useState([]);
   const [modalRemove, setModalRemove] = useState(false);
-  const [unityRemove, setUnityRemove] = useState({});
+  const [productRemove, setProductRemove] = useState({});
 
   const [page, setPage] = useState(0);
   const [size, setSize] = useState(10);
@@ -21,10 +21,10 @@ const UnityListScreen: () => Node = ({navigation}) => {
   const [sort, setSort] = useState('id');
 
   useEffect(() => {
-    unityService
-      .loadPageUnity(page, size, search, order, sort)
+    productService
+      .loadPageProduct(page, size, search, order, sort)
       .then(res => {
-        setUnityList(res.results);
+        setProductList(res.results);
       })
       .catch(error => {
         if (error.response.data.message) {
@@ -47,10 +47,10 @@ const UnityListScreen: () => Node = ({navigation}) => {
   const loadMoreItemPage = () => {
     setPage(page + 1);
 
-    unityService
-      .loadPageUnity(page + 1, size, search, order, sort)
+    productService
+      .loadPageProduct(page + 1, size, search, order, sort)
       .then(res => {
-        setUnityList(unityList.concat(res.results));
+        setProductList(productList.concat(res.results));
       })
       .catch(err => {
         console.log(err);
@@ -61,10 +61,10 @@ const UnityListScreen: () => Node = ({navigation}) => {
     setPage(0);
     setSearch(searchNow);
 
-    unityService
-      .loadPageUnity(0, size, searchNow, order, sort)
+    productService
+      .loadPageProduct(0, size, searchNow, order, sort)
       .then(res => {
-        setUnityList(res.results);
+        setProductList(res.results);
       })
       .catch(err => {
         console.log(err);
@@ -85,32 +85,32 @@ const UnityListScreen: () => Node = ({navigation}) => {
             }}
             placeholder="Buscar"
           />
-          <FlatListUnity
-            unityList={unityList}
+          <FlatListProduct
+            productList={productList}
             loadMoreItemPage={loadMoreItemPage}
             setModalRemoveVisible={setModalRemove}
-            setUnityRemove={setUnityRemove}
+            setProductRemove={setProductRemove}
             navigation={navigation}
           />
         </View>
       </View>
       <ModalComponent
-        title={'Remover unidades'}
-        message={`Deseja remover unidade: ${unityRemove.name} com id: ${unityRemove.id}?`}
+        title={'Remover produto'}
+        message={`Deseja remover produto: ${productRemove.name} com id: ${productRemove.id}?`}
         modalVisible={modalRemove}
         onConfirm={() => {
-          unityService
-            .remove(unityRemove.id)
+          productService
+            .remove(productRemove.id)
             .then(_ => {
-              const newList = unityList.filter(
-                item => item.id != unityRemove.id,
+              const newList = productList.filter(
+                item => item.id != productRemove.id,
               );
-              setUnityList(newList);
+              setProductList(newList);
               setModalRemove(false);
               Toast.show({
                 type: 'success',
                 text1: 'Removido',
-                text2: `Unidade:${unityRemove.name} com id: ${unityRemove.id}, removido com sucesso. `,
+                text2: `Produto:${productRemove.name} com id: ${productRemove.id}, removido com sucesso. `,
               });
             })
             .catch(error => {
@@ -152,4 +152,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default UnityListScreen;
+export default ProductListScreen;

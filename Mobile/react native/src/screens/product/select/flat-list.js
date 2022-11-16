@@ -12,8 +12,6 @@ export class FlatListUnity extends PureComponent {
           <RenderItem
             item={item}
             index={index}
-            setModalRemoveVisible={this.props.setModalRemoveVisible}
-            setUnityRemove={this.props.setUnityRemove}
             navigation={this.props.navigation}
           />
         )}
@@ -34,24 +32,16 @@ class RenderItem extends PureComponent {
         <View style={styles.BodyItemRender}>
           <TouchableOpacity
             onPress={() => {
-              this.props.navigation.push('UnityRegistration', this.props.item);
+              this.props.navigation.navigate(
+                'ProductRegistration',
+                this.props.item,
+              );
             }}>
             {/* <Text style={styles.TextItemRender}>Index:{this.props.index}</Text> */}
             <Text style={styles.TextItemRender}>Id:{this.props.item.id}</Text>
             <Text style={styles.TextItemRender}>
               Nome:{this.props.item.name}
             </Text>
-          </TouchableOpacity>
-        </View>
-        <View style={styles.ActionItemRender}>
-          <TouchableOpacity
-            onPress={() => {
-              this.props.setUnityRemove(this.props.item);
-              this.props.setModalRemoveVisible(true);
-            }}>
-            <View style={styles.ViewCollapse}>
-              <Icon name="trash-o" size={35} color="#000" />
-            </View>
           </TouchableOpacity>
         </View>
       </View>
@@ -71,6 +61,5 @@ const styles = StyleSheet.create({
   TextItemRender: {
     fontSize: 18,
   },
-  BodyItemRender: {flex: 8},
-  ActionItemRender: {flex: 2},
+  BodyItemRender: {flex: 1},
 });

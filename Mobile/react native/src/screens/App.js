@@ -4,9 +4,11 @@ import type {Node} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import UnityListScreen from './unity/unityList';
-import ProductListScreen from './productList';
 import Toast, {BaseToast, ErrorToast} from 'react-native-toast-message';
 import UnityRegistrationScreen from './unity/unityRegistration';
+import ProductListScreen from './product/productList';
+import ProductRegistrationScreen from './product/productRegistration';
+import UnityListSelect from './product/select/unityList';
 
 const Stack = createNativeStackNavigator();
 
@@ -38,12 +40,15 @@ const toastConfig = {
   error: props => (
     <ErrorToast
       {...props}
+      style={{borderLeftColor: 'red', height: 'auto'}}
       text1Style={{
         fontSize: 20,
       }}
+      text1NumberOfLines={2}
       text2Style={{
         fontSize: 18,
       }}
+      text2NumberOfLines={2}
     />
   ),
 };
@@ -67,6 +72,16 @@ const App: () => Node = () => {
             name="UnityRegistration"
             component={UnityRegistrationScreen}
             options={{headerShown: false}}
+          />
+          <Stack.Screen
+            name="ProductRegistration"
+            component={ProductRegistrationScreen}
+            options={{headerShown: false}}
+          />
+          <Stack.Screen
+            name="UnityListSelect"
+            component={UnityListSelect}
+            options={{headerShown: false, presentation: 'modal'}}
           />
         </Stack.Navigator>
       </NavigationContainer>

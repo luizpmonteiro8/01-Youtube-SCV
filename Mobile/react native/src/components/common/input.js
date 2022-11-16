@@ -5,6 +5,7 @@ interface Props {
   label: text;
   placeholder: text;
   error: text;
+  value: text;
   keyboardType?: text;
   onChange: () => Void;
   password: boolean;
@@ -19,6 +20,7 @@ export const Input = ({
   onChange,
   password = false,
   disabled = false,
+  value,
 }: Props) => {
   return (
     <View style={styles.Container}>
@@ -39,6 +41,7 @@ export const Input = ({
           onChangeText={onChange}
           secureTextEntry={password}
           editable={!disabled}
+          value={value}
         />
       </View>
       {error && (
@@ -56,8 +59,8 @@ const styles = StyleSheet.create({
   InputView: {margin: 0},
   ErrorView: {margin: 0},
   LabelText: {fontSize: 20, color: '#000'},
-  InputText: {fontSize: 18, borderColor: '#000', borderWidth: 2},
-  DisabledInput: {borderColor: '#a7a7a7', borderWidth: 2},
+  InputText: {fontSize: 22, borderColor: '#000', borderWidth: 2},
+  DisabledInput: {fontSize: 22, borderColor: '#a7a7a7', borderWidth: 2},
   ErrorText: {color: '#ff0000', fontSize: 18},
   InputTextError: {fontSize: 18, borderColor: '#ff0000', borderWidth: 2},
 });
