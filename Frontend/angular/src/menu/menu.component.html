@@ -1,0 +1,74 @@
+<mat-drawer #drawer class="side-nav" mode="side">
+  <div class="container-nav">
+    <mat-accordion multi="false">
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title class="panel-title">
+            Listar
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <div class="button-nav">
+          <button mat-button>
+            <mat-icon>arrow_forward</mat-icon>
+            Unidades
+          </button>
+
+          <button mat-button>
+            <mat-icon>arrow_forward</mat-icon>
+            Produtos
+          </button>
+        </div>
+
+      </mat-expansion-panel>
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title class="panel-title">
+            Cadastrar
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <div class="button-nav">
+          <button mat-button>
+            <mat-icon>arrow_forward</mat-icon>
+            Unidades
+          </button>
+
+          <button mat-button>
+            <mat-icon>arrow_forward</mat-icon>
+            Produtos
+          </button>
+        </div>
+
+      </mat-expansion-panel>
+    </mat-accordion>
+  </div>
+</mat-drawer>
+
+<mat-toolbar>
+
+  <div class="container">
+    <div>SCV</div>
+    <div class="drop-menu hidden-div">
+      <button class="button-text" mat-button [matMenuTriggerFor]="menu">Listar</button>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item>Unidades</button>
+        <button mat-menu-item>Produtos</button>
+      </mat-menu>
+      <button class="button-text" mat-button [matMenuTriggerFor]="menu">Cadastrar</button>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item>Unidades</button>
+        <button mat-menu-item>Produtos</button>
+      </mat-menu>
+    </div>
+    <div class="hidden-div">
+      <button mat-icon-button (click)="drawer.toggle();accordion.closeAll()">
+        <mat-icon>logout</mat-icon>
+      </button>
+    </div>
+    <div class="icon-menu">
+      <button mat-icon-button (click)="drawer.toggle();accordion.closeAll()">
+        <mat-icon>menu</mat-icon>
+      </button>
+    </div>
+  </div>
+
+</mat-toolbar>
