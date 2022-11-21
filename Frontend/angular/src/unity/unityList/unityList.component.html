@@ -1,25 +1,40 @@
 <div class="header">
-  <h1>Lista de unidades</h1>
+  <div class="header-content">
+    <h1>Lista de unidades</h1>
+    <input class="input" placeholder="Buscar" (keyup)="onChangeInput($event)" />
+  </div>
 </div>
 
-<mat-card>
-  <mat-card-content>
+<div class="table-wrapper">
+  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
 
-    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
-      <!-- id Column -->
-      <ng-container matColumnDef="id">
-        <th mat-header-cell *matHeaderCellDef>Id</th>
-        <td mat-cell *matCellDef="let element">{{ element.id }}</td>
-      </ng-container>
+    <!-- id Column -->
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef>Id</th>
+      <td mat-cell *matCellDef="let element">{{ element.id }}</td>
+    </ng-container>
 
-      <!-- Name Column -->
-      <ng-container matColumnDef="name">
-        <th mat-header-cell *matHeaderCellDef>Nome</th>
-        <td mat-cell *matCellDef="let element">{{ element.name }}</td>
-      </ng-container>
+    <!-- Name Column -->
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef>Nome</th>
+      <td mat-cell *matCellDef="let element">{{ element.name }}</td>
+    </ng-container>
 
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-    </table>
-  </mat-card-content>
-</mat-card>
+    <!-- action Column -->
+    <ng-container matColumnDef="action">
+      <th mat-header-cell *matHeaderCellDef>Ações</th>
+      <td mat-cell *matCellDef="let element">
+        <a (click)="openDialog(element)" style="cursor: pointer;">Remover</a>
+      </td>
+    </ng-container>
+  </table>
+</div>
+<div>
+
+  <mat-paginator #paginator class="paginator-text" [length]="pagination.length " [pageSize]="pagination.size"
+    [showFirstLastButtons]="true" [pageIndex]="pagination.page" [hidePageSize]="true" (page)="handlePageEvent($event)">
+  </mat-paginator>
+
+</div>
