@@ -7,6 +7,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { UnityListModule } from 'src/unity/unityList/unityList.module';
 import { UnityService } from 'src/api/services/unity.services';
 import { HttpClientModule } from '@angular/common/http';
+import { UnityFormModule } from 'src/unity/unityForm/unityForm.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -15,9 +16,10 @@ import { HttpClientModule } from '@angular/common/http';
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
+    HttpClientModule,
     MenuModule,
     UnityListModule,
-    HttpClientModule,
+    UnityFormModule,
   ],
 })
 export class AppModule {}
