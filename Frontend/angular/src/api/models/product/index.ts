@@ -1,9 +1,9 @@
 import { Unity } from '../unity';
 
 export type Product = {
-  id?: number;
+  id?: Number;
   name: string;
   priceSale: string;
-  unityId: number;
-  Unity?: Unity;
+  unityId: Number;
+  unity?: Unity;
 };

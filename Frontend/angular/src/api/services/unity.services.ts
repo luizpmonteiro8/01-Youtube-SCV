@@ -35,7 +35,10 @@ export class UnityService {
     return this.http.post<Unity>(environment.baseUrl + this.PATH, unity);
   }
   update(unity: Unity): Observable<Unity> {
-    return this.http.patch<Unity>(environment.baseUrl + this.PATH, unity);
+    return this.http.patch<Unity>(
+      environment.baseUrl + this.PATH + '/' + unity.id,
+      unity
+    );
   }
   remove(id: number): Observable<void> {
     return this.http.delete<void>(environment.baseUrl + this.PATH + `/${id}`);

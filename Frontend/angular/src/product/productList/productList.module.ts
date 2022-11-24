@@ -7,12 +7,12 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 
-import { DialogRemove, UnityListComponent } from './unityList.component';
+import { DialogRemove, ProductListComponent } from './productList.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from 'src/app/app-router.module';
 
 @NgModule({
-  declarations: [UnityListComponent, DialogRemove],
+  declarations: [ProductListComponent, DialogRemove],
   providers: [],
   imports: [
     BrowserModule,
@@ -26,6 +26,6 @@ import { AppRoutingModule } from 'src/app/app-router.module';
     AppRoutingModule,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
-  exports: [UnityListComponent],
+  exports: [ProductListComponent],
 })
-export class UnityListModule {}
+export class ProductListModule {}

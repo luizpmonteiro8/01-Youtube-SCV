@@ -1,0 +1,52 @@
+.card-wrapper {
+  width: fit-content;
+  margin: 0 auto;
+  margin-top: 15px;
+}
+
+.card-container {
+  margin: 0 auto;
+}
+.card-title {
+  margin-bottom: 15px;
+}
+
+h1 {
+  margin: 0;
+  padding: 0;
+}
+
+.form-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.input-form {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 15px;
+}
+
+.button-form {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+.error-form {
+  font-size: 16px;
+  color: #ff0000;
+}
+
+.button-form-style {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 50px;
+  font-size: 25px;
+  margin: 0;
+}
+
+.mat-warm,
+.mat-primary {
+  height: fit-content;
+}

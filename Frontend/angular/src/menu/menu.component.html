@@ -8,12 +8,12 @@
           </mat-panel-title>
         </mat-expansion-panel-header>
         <div class="button-nav">
-          <button mat-button>
+          <button mat-button (click)="goList('unity')">
             <mat-icon>arrow_forward</mat-icon>
             Unidades
           </button>
 
-          <button mat-button>
+          <button mat-button (click)="goList('product')">
             <mat-icon>arrow_forward</mat-icon>
             Produtos
           </button>
@@ -27,12 +27,12 @@
           </mat-panel-title>
         </mat-expansion-panel-header>
         <div class="button-nav">
-          <button mat-button>
+          <button mat-button (click)="goForm('unity')">
             <mat-icon>arrow_forward</mat-icon>
             Unidades
           </button>
 
-          <button mat-button>
+          <button mat-button (click)="goForm('product')">
             <mat-icon>arrow_forward</mat-icon>
             Produtos
           </button>
@@ -48,15 +48,15 @@
   <div class="container">
     <div>SCV</div>
     <div class="drop-menu hidden-div">
-      <button class="button-text" mat-button [matMenuTriggerFor]="menu">Listar</button>
-      <mat-menu #menu="matMenu">
-        <button mat-menu-item>Unidades</button>
-        <button mat-menu-item>Produtos</button>
+      <button class="button-text" mat-button [matMenuTriggerFor]="menuList">Listar</button>
+      <mat-menu #menuList="matMenu">
+        <button mat-menu-item (click)="goList('unity')">Unidades</button>
+        <button mat-menu-item (click)="goList('product')">Produtos</button>
       </mat-menu>
-      <button class="button-text" mat-button [matMenuTriggerFor]="menu">Cadastrar</button>
-      <mat-menu #menu="matMenu">
-        <button mat-menu-item>Unidades</button>
-        <button mat-menu-item>Produtos</button>
+      <button class="button-text" mat-button [matMenuTriggerFor]="menuForm">Cadastrar</button>
+      <mat-menu #menuForm="matMenu">
+        <button mat-menu-item (click)="goForm('unity')">Unidades</button>
+        <button mat-menu-item (click)="goForm('product')">Produtos</button>
       </mat-menu>
     </div>
     <div class="hidden-div">

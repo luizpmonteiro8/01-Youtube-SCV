@@ -1,4 +1,4 @@
 export type Unity = {
-  id?: number;
+  id?: Number;
   name: string;
 };

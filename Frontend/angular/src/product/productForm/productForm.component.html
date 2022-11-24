@@ -1,0 +1,52 @@
+<mat-card class="card-wrapper">
+  <mat-card-content class="card-container">
+    <div class="card-title">
+      <h1>Cadastro de produtos </h1>
+    </div>
+    <div class="form-container">
+      <form (submit)="onSubmit($event)">
+        <div class="input-form">
+          <label class="label" for="id">Id</label>
+          <input class="input" id="id" [value]="id" placeholder="Id" disabled />
+        </div>
+
+        <div class="input-form">
+          <label class="label" for="name">Nome</label>
+          <input class="input" id="name" [value]="name" placeholder="Digite o nome" (keyup)='onChangeName($event)' />
+          <small class="error-form" *ngIf="touched && name==''">Campo obrigatório</small>
+        </div>
+
+        <div class="input-form">
+          <label class="label" for="priceSale">Preço de venda</label>
+          <input class="input" id="priceSale" [value]="priceSale" placeholder="Digite o preço de venda"
+            (keyup)='onChangePriceSale($event)' />
+          <small class="error-form" *ngIf="touched && priceSale==''">Campo obrigatório</small>
+        </div>
+
+        <div class="input-form">
+          <mat-label class="label">Unidades</mat-label>
+          <input class="input" [value]="search" type="text" placeholder="Selecione uma unidade" matInput
+            [matAutocomplete]="autoCompleteInput" (keyup)='onChangeSearch($event)'>
+
+          <mat-autocomplete #autoCompleteInput="matAutocomplete" (opened)="autocompleteScroll()"
+            (optionSelected)="onChangeUnity($event)">
+            <mat-option *ngFor="let unity of unityList" [value]="unity.name">
+              {{unity.name}}
+            </mat-option>
+          </mat-autocomplete>
+
+        </div>
+
+
+        <div class="button-form">
+          <button mat-button color="warm" type="reset" (click)="reset()" style="margin-right:25px;">
+            <p class="button-form-style">Limpar</p>
+          </button>
+          <button mat-raised-button color="primary" type="submit">
+            <p class="button-form-style">Enviar</p>
+          </button>
+        </div>
+      </form>
+    </div>
+  </mat-card-content>
+</mat-card>

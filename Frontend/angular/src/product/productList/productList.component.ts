@@ -4,17 +4,18 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTableDataSource } from '@angular/material/table';
 import { PaginationType } from 'src/api/models/pagination';
-import { Unity } from 'src/api/models/unity';
-import { UnityService } from 'src/api/services/unity.services';
+import { Product } from 'src/api/models/product';
+import { ProductService } from 'src/api/services/product.services';
+import { convertAmericanFromBrazil } from 'src/common/util/formatNumber';
 
 @Component({
-  selector: 'unityList-root',
-  templateUrl: './unityList.component.html',
-  styleUrls: ['./unityList.component.css'],
+  selector: 'productList-root',
+  templateUrl: './productList.component.html',
+  styleUrls: ['./productList.component.css'],
 })
-export class UnityListComponent {
-  displayedColumns: string[] = ['id', 'name', 'action'];
-  unityList: Unity[] = [];
+export class ProductListComponent {
+  displayedColumns: string[] = ['id', 'name', 'priceSale', 'unity', 'action'];
+  productList: Product[] = [];
   pagination: PaginationType = {
     length: 0,
     size: 0,
@@ -23,7 +24,7 @@ export class UnityListComponent {
     startIndex: 0,
     endIndex: 0,
   };
-  dataSource: MatTableDataSource<Unity>;
+  dataSource: MatTableDataSource<Product>;
 
   page = 0;
   size = 25;
@@ -34,7 +35,7 @@ export class UnityListComponent {
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
   constructor(
-    private unityService: UnityService,
+    private productService: ProductService,
     private dialog: MatDialog,
     private snackBar: MatSnackBar
   ) {}
@@ -47,9 +48,9 @@ export class UnityListComponent {
     this.paginator._intl.lastPageLabel = 'Última página';
     this.paginator._intl.getRangeLabel = this.getDisplayText;
 
-    this.unityService.getUnityPage().subscribe({
+    this.productService.getProductPage().subscribe({
       next: (resp) => {
-        this.unityList = resp.results;
+        this.productList = resp.results;
         this.pagination = resp.pagination;
         this.dataSourceValue();
       },
@@ -67,6 +68,10 @@ export class UnityListComponent {
     });
   }
 
+  convertBrazil(priceSale) {
+    return `R$ ${convertAmericanFromBrazil(priceSale)}`;
+  }
+
   getDisplayText(page: number, pageSize: number, length: number) {
     if (length == 0 || pageSize == 0) {
       return 'Sem resultados.';
@@ -82,12 +87,12 @@ export class UnityListComponent {
   }
 
   dataSourceValue() {
-    this.dataSource = new MatTableDataSource<Unity>(this.unityList);
+    this.dataSource = new MatTableDataSource<Product>(this.productList);
   }
 
   handlePageEvent(event: any) {
-    this.unityService
-      .getUnityPage(
+    this.productService
+      .getProductPage(
         event.pageIndex,
         this.size,
         this.search,
@@ -96,7 +101,7 @@ export class UnityListComponent {
       )
       .subscribe({
         next: (resp) => {
-          this.unityList = resp.results;
+          this.productList = resp.results;
           this.pagination = resp.pagination;
           this.dataSourceValue();
         },
@@ -117,11 +122,11 @@ export class UnityListComponent {
   onChangeInput(e: any) {
     this.search = e.target.value;
 
-    this.unityService
-      .getUnityPage(0, this.size, this.search, this.order, this.sort)
+    this.productService
+      .getProductPage(0, this.size, this.search, this.order, this.sort)
       .subscribe({
         next: (resp) => {
-          this.unityList = resp.results;
+          this.productList = resp.results;
           this.pagination = resp.pagination;
           this.dataSourceValue();
         },
@@ -147,15 +152,17 @@ export class UnityListComponent {
     });
     dialog.afterClosed().subscribe((remove) => {
       if (remove) {
-        this.removeUnity(e.id);
+        this.removeProduct(e.id);
       }
     });
   }
 
-  removeUnity(unityId) {
-    this.unityService.remove(unityId).subscribe({
+  removeProduct(productId) {
+    this.productService.remove(productId).subscribe({
       next: (_) => {
-        this.unityList = this.unityList.filter((item) => item.id != unityId);
+        this.productList = this.productList.filter(
+          (item) => item.id != productId
+        );
         this.pagination.length = this.pagination.length - 1;
         this.dataSourceValue();
         this.snackBar.open('Removido com sucesso.', 'Sucesso', {
@@ -181,10 +188,10 @@ export class UnityListComponent {
   selector: 'dialog-remove',
   template: ` <div class="dialog-container">
     <div class="dialog-container-title">
-      <h1 mat-dialog-title class="dialog-title">Remover unidade</h1>
+      <h1 mat-dialog-title class="dialog-title">Remover produto</h1>
     </div>
     <div mat-dialog-content class="dialog-message">
-      Gostaria de remover unidade de nome: {{ data.name }} com id:
+      Gostaria de remover produto de nome: {{ data.name }} com id:
       {{ data.id }}?
     </div>
     <div mat-dialog-actions>
@@ -194,8 +201,8 @@ export class UnityListComponent {
       </button>
     </div>
   </div>`,
-  styleUrls: ['./unityList.component.css'],
+  styleUrls: ['./productList.component.css'],
 })
 export class DialogRemove {
-  constructor(@Inject(MAT_DIALOG_DATA) public data: Unity) {}
+  constructor(@Inject(MAT_DIALOG_DATA) public data: Product) {}
 }

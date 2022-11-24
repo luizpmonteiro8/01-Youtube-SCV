@@ -35,7 +35,10 @@ export class ProductService {
     return this.http.post<Product>(environment.baseUrl + this.PATH, product);
   }
   update(product: Product): Observable<Product> {
-    return this.http.patch<Product>(environment.baseUrl + this.PATH, product);
+    return this.http.patch<Product>(
+      environment.baseUrl + this.PATH + '/' + product.id,
+      product
+    );
   }
   remove(id: number): Observable<void> {
     return this.http.delete<void>(environment.baseUrl + this.PATH + `/${id}`);
