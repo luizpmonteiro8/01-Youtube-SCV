@@ -283,5 +283,8 @@ export class ProductFormComponent {
     this.touched = false;
     this.id = null;
     this.name = '';
+    this.priceSale = '';
+    this.unityId = null;
+    this.search = '';
   }
 }

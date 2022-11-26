@@ -15,10 +15,12 @@ const routes: Routes = [
       {
         path: '',
         component: UnityListComponent,
+        title: 'Lista de unidades - SCV',
       },
       {
         path: 'cadastro',
         component: UnityFormComponent,
+        title: 'Cadastro de unidades - SCV',
       },
     ],
   },
@@ -29,10 +31,12 @@ const routes: Routes = [
       {
         path: '',
         component: ProductListComponent,
+        title: 'Lista de produtos - SCV',
       },
       {
         path: 'cadastro',
         component: ProductFormComponent,
+        title: 'Cadastro de produtos - SCV',
       },
     ],
   },

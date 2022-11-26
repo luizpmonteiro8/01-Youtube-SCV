@@ -140,8 +140,6 @@ export class UnityListComponent {
   }
 
   openDialog(e) {
-    console.log(e);
-
     const dialog = this.dialog.open(DialogRemove, {
       data: { id: e.id, name: e.name },
     });

@@ -27,6 +27,7 @@
           <mat-label class="label">Unidades</mat-label>
           <input class="input" [value]="search" type="text" placeholder="Selecione uma unidade" matInput
             [matAutocomplete]="autoCompleteInput" (keyup)='onChangeSearch($event)'>
+          <small class="error-form" *ngIf="touched && unityId==null">Campo obrigatório</small>
 
           <mat-autocomplete #autoCompleteInput="matAutocomplete" (opened)="autocompleteScroll()"
             (optionSelected)="onChangeUnity($event)">

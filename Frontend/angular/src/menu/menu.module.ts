@@ -8,11 +8,13 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatExpansionModule } from '@angular/material/expansion';
 
 import { MenuComponent } from './menu.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [MenuComponent],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     MatToolbarModule,
     MatButtonModule,
     MatIconModule,
