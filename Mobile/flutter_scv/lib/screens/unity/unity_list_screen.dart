@@ -83,7 +83,7 @@ class _UnityListState extends State<UnityListScreen> {
         builder: (context) {
           return AlertDialog(
             title: Text(
-                'Deseja deletar unidade com nome: ${_unityList[index].name} '
+                'Deseja deletar unidade com nome: ${_unityList[index].name}'
                 'e id: ${_unityList[index].id.toString()}?'),
             actions: [
               TextButton(
@@ -111,25 +111,33 @@ class _UnityListState extends State<UnityListScreen> {
               Navigator.of(context).pop(),
               ScaffoldMessenger.of(context).showSnackBar(
                 const SnackBar(
-                  content: Text('Removido com sucesso!',style: TextStyle(fontSize: 18),),
+                  content: Text(
+                    'Removido com sucesso!',
+                    style: TextStyle(fontSize: 18),
+                  ),
                 ),
               ),
             })
         .catchError((error) => {
-            Navigator.of(context).pop(),
+              Navigator.of(context).pop(),
               if (error.runtimeType == String)
                 {
                   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                    content: Text(error,style:const TextStyle(fontSize: 18),),
+                    content: Text(
+                      error,
+                      style: const TextStyle(fontSize: 18),
+                    ),
                   ))
                 }
               else
                 {
                   ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                    content: Text('Ocorreu um erro inesperado.',style: TextStyle(fontSize: 18),),
+                    content: Text(
+                      'Ocorreu um erro inesperado.',
+                      style: TextStyle(fontSize: 18),
+                    ),
                   ))
                 }
-
             });
   }
 
@@ -137,7 +145,7 @@ class _UnityListState extends State<UnityListScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Lista de Unidades'),
+        title: const Text('Lista de unidades'),
         actions: [
           IconButton(
               onPressed: () {

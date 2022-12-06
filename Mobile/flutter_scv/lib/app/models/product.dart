@@ -24,6 +24,14 @@ class Product {
     );
   }
 
+  Map toJson() {
+    if (id != null) {
+      return {'id': id, 'name': name,'priceSale':priceSale,'unityId':unityId};
+    } else {
+      return {'name': name,'priceSale':priceSale,'unityId':unityId};
+    }
+  }
+
   @override
   String toString() {
     return 'Produto: {id: $id, nome: $name, preço de venda: $priceSale, '
