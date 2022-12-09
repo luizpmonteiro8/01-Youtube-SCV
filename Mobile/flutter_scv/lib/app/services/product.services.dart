@@ -14,23 +14,24 @@ class ProductServices {
     dio.options.baseUrl = EnvironmentConfig.urlsConfig();
   }
 
-  Future getProductPage({required page, search = ''}) async {
+  Future getProductPage(
+      {page = 0, search = '', size = 25, order = 'asc', sort = 'id'}) async {
     List listProduct;
 
     try {
-      final response =
-          await dio.get('$endPoint/pages?page=$page&search=$search');
+      final response = await dio.get(
+          '$endPoint/pages?page=$page&search=$search&size=$size&order=$order&sort=$sort');
       listProduct =
           response.data['results'].map((item) => Product.fromJson(item)).toList();
       Pagination pagination = Pagination(
           length: response.data['pagination']['length'],
-          size: response.data['pagination']['size'],
+          size: int.parse(response.data['pagination']['size']),
           lastPage: response.data['pagination']['lastPage'],
           page: response.data['pagination']['page'],
           startIndex: response.data['pagination']['startIndex'],
           endIndex: response.data['pagination']['endIndex']);
 
-      return [listProduct,pagination];
+      return [listProduct, pagination];
     } on DioError catch (e) {
       return Future.error(e.response!.data["message"]);
     }
@@ -46,8 +47,9 @@ class ProductServices {
   }
 
   Future insert(Product product) async{
+    print(product);
     try{
-      final response = await dio.post(endPoint,data:{product});
+      final response = await dio.post(endPoint,data:product);
       return response.data['id'];
     }on DioError catch (e) {
       return Future.error(e.response!.data["message"]);
@@ -57,6 +59,7 @@ class ProductServices {
   Future update(Product product) async{
     try{
       final response = await dio.patch('$endPoint/${product.id}',data:product);
+      return response.data['id'];
     }on DioError catch (e) {
       return Future.error(e.response!.data["message"]);
     }

@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_scv/app/models/unity.dart';
 import 'package:flutter_scv/app/services/unity.services.dart';
+import 'package:flutter_scv/components/custom_drawer.dart';
 
 class UnityFormScreen extends StatefulWidget {
-  const UnityFormScreen({super.key});
+  const UnityFormScreen({super.key, this.unity});
+
+  final Unity? unity;
 
   @override
   State<UnityFormScreen> createState() => _UnityFormState();
@@ -21,6 +24,10 @@ class _UnityFormState extends State<UnityFormScreen> {
   @override
   void initState() {
     super.initState();
+    if (widget.unity != null) {
+      controllerId.text = widget.unity!.id.toString();
+      controllerName.text = widget.unity!.name;
+    }
   }
 
   @override
@@ -56,9 +63,37 @@ class _UnityFormState extends State<UnityFormScreen> {
             });
   }
 
+  _update(BuildContext context) {
+    Unity unity =
+        Unity(id: int.parse(controllerId.text), name: controllerName.text);
+    unityServices
+        .update(unity)
+        .then((value) => {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(
+                    'Sucesso, alterado id: $value!',
+                    style: const TextStyle(fontSize: 18),
+                  ),
+                ),
+              ),
+            })
+        .catchError((error) => {
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                content: Text(
+                  error.runtimeType == String
+                      ? error
+                      : 'Ocorreu um erro inesperado.',
+                  style: const TextStyle(fontSize: 18),
+                ),
+              )),
+            });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: const CustomDrawer(),
       appBar: AppBar(
         title: const Text('Cadastro de unidades'),
       ),
@@ -68,7 +103,7 @@ class _UnityFormState extends State<UnityFormScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Offstage(
-              offstage: id != null ? false : true,
+              offstage: controllerId.text != '' ? false : true,
               child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -118,8 +153,9 @@ class _UnityFormState extends State<UnityFormScreen> {
                     });
                     if (controllerId.text == '' && controllerName.text != '') {
                       _save(context);
-                    } else {
-                      print('error');
+                    } else if (controllerId.text != '' &&
+                        controllerName.text != '') {
+                      _update(context);
                     }
                   },
                   child: const Text('Salvar', style: TextStyle(fontSize: 18))),

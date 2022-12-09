@@ -16,11 +16,11 @@ class Product {
 
   factory Product.fromJson(Map<String, dynamic> json) {
     return Product(
-      id: json['id'],
+      id: int.parse(json['id']),
       name: json['name'],
-      priceSale: json['priceSale'],
-      unityId: json['unityId'],
-      unity: json['unity'],
+      priceSale:double.parse(json['priceSale']),
+      unityId:int.parse(json['unityId']),
+      unity: Unity.fromJson(json['unity']),
     );
   }
 
@@ -35,6 +35,6 @@ class Product {
   @override
   String toString() {
     return 'Produto: {id: $id, nome: $name, preço de venda: $priceSale, '
-        'unidade: {id:${unity!.id}, nome: ${unity!.name}  }}';
+        'unidade: $unityId}';
   }
 }

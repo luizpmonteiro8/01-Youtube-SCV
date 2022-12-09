@@ -24,20 +24,21 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
           appBarTheme: const AppBarTheme(elevation: 0, color: Colors.grey),
           highlightColor: Colors.red,
-          inputDecorationTheme: (const InputDecorationTheme(
-              border: OutlineInputBorder(),
-              errorStyle: TextStyle(fontSize: 16),
-              errorBorder: OutlineInputBorder(borderSide: BorderSide(
-                  color: Colors.red,
-                  style: BorderStyle.solid,
-                  width: 2)),
-              focusedBorder: OutlineInputBorder(borderSide: BorderSide(
-                  color: Colors.blue,
-                  style: BorderStyle.solid,
-                  width: 2)),
-              enabledBorder: OutlineInputBorder(
+          inputDecorationTheme: (InputDecorationTheme(
+              border: const OutlineInputBorder(),
+              errorStyle: const TextStyle(fontSize:16),
+              errorBorder: const OutlineInputBorder(
                   borderSide: BorderSide(
-                      color: Colors.grey,
+                      color: Colors.red, style: BorderStyle.solid, width: 2)),
+              focusedBorder: const OutlineInputBorder(
+                  borderSide: BorderSide(
+                      color: Colors.blue, style: BorderStyle.solid, width: 2)),
+              enabledBorder: const OutlineInputBorder(
+                  borderSide: BorderSide(
+                      color: Colors.grey, style: BorderStyle.solid, width: 2)),
+              disabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(
+                      color: Colors.grey.withOpacity(0.4),
                       style: BorderStyle.solid,
                       width: 2)))),
           elevatedButtonTheme: ElevatedButtonThemeData(
@@ -47,7 +48,7 @@ class MyApp extends StatelessWidget {
 
       //color for scrollbar
 
-      home: const UnityFormScreen(),
+      home: const UnityListScreen(),
     );
   }
 }

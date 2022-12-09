@@ -1,41 +1,39 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_scv/app/models/pagination.dart';
-import 'package:flutter_scv/app/models/unity.dart';
-import 'package:flutter_scv/app/services/unity.services.dart';
+import 'package:flutter_scv/app/models/product.dart';
+import 'package:flutter_scv/app/services/product.services.dart';
 import 'package:flutter_scv/components/custom_drawer.dart';
-import 'package:flutter_scv/screens/unity/unity_form_screen.dart';
+import 'package:flutter_scv/screens/product/product_form_screen.dart';
 import 'package:intl/intl.dart';
 
-class UnityListScreen extends StatefulWidget {
-  const UnityListScreen({super.key});
+class ProductListScreen extends StatefulWidget {
+  const ProductListScreen({super.key});
 
   @override
-  State<UnityListScreen> createState() => _UnityListState();
+  State<ProductListScreen> createState() => _ProductListState();
 }
 
-class _UnityListState extends State<UnityListScreen> {
-  UnityServices unityServices = UnityServices();
-  List<Unity> _unityList = [];
+class _ProductListState extends State<ProductListScreen> {
+  ProductServices productServices = ProductServices();
+  List<Product> _productList = [];
   int _pageNumberTotal = 0;
   int _pageNumber = 0;
   int _totalItens = 0;
   final int _size = 25;
   String _search = '';
 
-
-
-
-
   final controllerSearch = TextEditingController();
+
+  var formatMoney = NumberFormat.currency(locale: "pt_BR",
+      symbol: "R\$");
 
   @override
   void initState() {
     super.initState();
 
-    unityServices.getUnityPage(size: _size).then((value) => {
+    productServices.getProductPage(size: _size).then((value) => {
           setState(() {
-            _unityList = value[0].cast<Unity>();
+            _productList = value[0].cast<Product>();
             Pagination pagination = value[1];
             _pageNumber = pagination.page;
             _pageNumberTotal = pagination.lastPage;
@@ -53,11 +51,11 @@ class _UnityListState extends State<UnityListScreen> {
   }
 
   _moreItens() {
-    unityServices
-        .getUnityPage(page: _pageNumber + 1, size: _size, search: _search)
+    productServices
+        .getProductPage(page: _pageNumber + 1, size: _size, search: _search)
         .then((value) => {
               setState(() {
-                _unityList.addAll(value[0].cast<Unity>());
+                _productList.addAll(value[0].cast<Product>());
                 Pagination pagination = value[1];
                 _pageNumber = pagination.page;
                 _pageNumberTotal = pagination.lastPage;
@@ -68,11 +66,11 @@ class _UnityListState extends State<UnityListScreen> {
 
   _searchItem() {
     _search = controllerSearch.text;
-    unityServices
-        .getUnityPage(page: 0, size: _size, search: controllerSearch.text)
+    productServices
+        .getProductPage(page: 0, size: _size, search: controllerSearch.text)
         .then((value) => {
               setState(() {
-                _unityList = value[0].cast<Unity>();
+                _productList = value[0].cast<Product>();
                 Pagination pagination = value[1];
                 _pageNumber = pagination.page;
                 _pageNumberTotal = pagination.lastPage;
@@ -81,15 +79,15 @@ class _UnityListState extends State<UnityListScreen> {
             });
   }
 
-  _deleteUnityDialog(int index, BuildContext context) {
+  _deleteProductDialog(int index, BuildContext context) {
     showDialog(
         context: context,
         barrierDismissible: true,
         builder: (context) {
           return AlertDialog(
             title: Text(
-                'Deseja deletar unidade com nome: ${_unityList[index].name}'
-                'e id: ${_unityList[index].id.toString()}?'),
+                'Deseja deletar produto com nome: ${_productList[index].name}'
+                'e id: ${_productList[index].id.toString()}?'),
             actions: [
               TextButton(
                   onPressed: () {
@@ -98,7 +96,7 @@ class _UnityListState extends State<UnityListScreen> {
                   child: const Text('Cancelar')),
               ElevatedButton(
                   onPressed: () {
-                    _deleteUnity(index, context);
+                    _deleteProduct(index, context);
                   },
                   child: const Text('Confimar')),
             ],
@@ -106,12 +104,12 @@ class _UnityListState extends State<UnityListScreen> {
         });
   }
 
-  _deleteUnity(int index, BuildContext context) {
-    unityServices
-        .remove(_unityList[index].id!)
+  _deleteProduct(int index, BuildContext context) {
+    productServices
+        .remove(_productList[index].id!)
         .then((value) => {
               setState(() {
-                _unityList.removeAt(index);
+                _productList.removeAt(index);
               }),
               Navigator.of(context).pop(),
               ScaffoldMessenger.of(context).showSnackBar(
@@ -151,7 +149,7 @@ class _UnityListState extends State<UnityListScreen> {
     return Scaffold(
       drawer: const CustomDrawer(),
       appBar: AppBar(
-        title: const Text('Lista de unidades'),
+        title: const Text('Lista de produtos'),
         actions: [
           IconButton(
               onPressed: () {
@@ -160,7 +158,7 @@ class _UnityListState extends State<UnityListScreen> {
                 Navigator.push(
                     context,
                     PageRouteBuilder(
-                      pageBuilder: (_, __, ___) => UnityFormScreen(),
+                      pageBuilder: (_, __, ___) => ProductFormScreen(),
                       transitionDuration: const Duration(seconds: 0),
                     ));
               },
@@ -175,7 +173,7 @@ class _UnityListState extends State<UnityListScreen> {
                 Navigator.push(
                     context,
                     PageRouteBuilder(
-                      pageBuilder: (_, __, ___) => const UnityListScreen(),
+                      pageBuilder: (_, __, ___) => const ProductListScreen(),
                       transitionDuration: const Duration(seconds: 0),
                     ));
               },
@@ -200,7 +198,7 @@ class _UnityListState extends State<UnityListScreen> {
                         border: OutlineInputBorder(), hintText: 'Buscar'),
                   ),
                   Text(
-                    'Itens Carregados: ${_unityList.length}',
+                    'Itens Carregados: ${_productList.length}',
                     style: const TextStyle(
                       fontSize: 18,
                     ),
@@ -215,13 +213,13 @@ class _UnityListState extends State<UnityListScreen> {
                     scrollDirection: Axis.vertical,
                     shrinkWrap: true,
                     padding: const EdgeInsets.all(8),
-                    itemCount: _unityList.length,
+                    itemCount: _productList.length,
                     itemBuilder: (BuildContext context, int index) {
-                      if (index == _unityList.length - 3 &&
+                      if (index == _productList.length - 3 &&
                           _pageNumber <= _pageNumberTotal) {
                         _moreItens();
                       }
-                      if (_unityList.isNotEmpty) {
+                      if (_productList.isNotEmpty) {
                         return Container(
                           margin: const EdgeInsets.only(bottom: 15),
                           color: index % 2 == 0
@@ -235,7 +233,7 @@ class _UnityListState extends State<UnityListScreen> {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) =>  UnityFormScreen(unity: _unityList[index],)));
+                                        builder: (context) =>  ProductFormScreen(product: _productList[index],)));
 
                                },
                                 child: Row(
@@ -247,15 +245,19 @@ class _UnityListState extends State<UnityListScreen> {
                                         CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                          'Id: ${_unityList[index].id.toString()}',
+                                          'Id: ${_productList[index].id.toString()}',
                                           style: const TextStyle(fontSize: 18)),
-                                      Text('Nome: ${_unityList[index].name}',
+                                      Text('Nome: ${_productList[index].name}',
+                                          style: const TextStyle(fontSize: 18)),
+                                      Text('Preço de venda: ${formatMoney.format(_productList[index].priceSale)}',
+                                          style: const TextStyle(fontSize: 18)),
+                                      Text('Unidade: ${_productList[index].unity!.name}',
                                           style: const TextStyle(fontSize: 18)),
                                     ],
                                   ),
                                   IconButton(
                                       onPressed: () {
-                                        _deleteUnityDialog(index, context);
+                                        _deleteProductDialog(index, context);
                                       },
                                       icon: const Icon(
                                         Icons.delete,

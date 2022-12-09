@@ -58,6 +58,7 @@ class UnityServices {
   Future update(Unity unity) async {
     try {
       final response = await dio.patch('$endPoint/${unity.id}', data: unity);
+      return response.data['id'];
     } on DioError catch (e) {
       return Future.error(e.response!.data["message"]);
     }
