@@ -1,10 +1,5 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
-import 'package:flutter_scv/app/models/unity.dart';
-import 'package:flutter_scv/app/services/unity.services.dart';
 import 'package:flutter_scv/environments.dart';
-import 'package:flutter_scv/screens/unity/unity_form_screen.dart';
 import 'package:flutter_scv/screens/unity/unity_list_screen.dart';
 
 void main() {
@@ -19,7 +14,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'SCV',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
           appBarTheme: const AppBarTheme(elevation: 0, color: Colors.grey),

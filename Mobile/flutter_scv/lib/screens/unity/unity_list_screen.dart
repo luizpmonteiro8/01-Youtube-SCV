@@ -23,10 +23,6 @@ class _UnityListState extends State<UnityListScreen> {
   final int _size = 25;
   String _search = '';
 
-
-
-
-
   final controllerSearch = TextEditingController();
 
   @override
@@ -88,7 +84,7 @@ class _UnityListState extends State<UnityListScreen> {
         builder: (context) {
           return AlertDialog(
             title: Text(
-                'Deseja deletar unidade com nome: ${_unityList[index].name}'
+                'Deseja deletar unidade com nome: ${_unityList[index].name} '
                 'e id: ${_unityList[index].id.toString()}?'),
             actions: [
               TextButton(
@@ -197,7 +193,7 @@ class _UnityListState extends State<UnityListScreen> {
                     autofocus: false,
                     controller: controllerSearch,
                     decoration: const InputDecoration(
-                        border: OutlineInputBorder(), hintText: 'Buscar'),
+                         hintText: 'Buscar'),
                   ),
                   Text(
                     'Itens Carregados: ${_unityList.length}',
@@ -230,39 +226,43 @@ class _UnityListState extends State<UnityListScreen> {
                           child: Padding(
                             padding: const EdgeInsets.all(20.0),
                             child: InkWell(
-                              highlightColor: Colors.grey,
-                              onTap: (){
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>  UnityFormScreen(unity: _unityList[index],)));
-
-                               },
+                                highlightColor: Colors.grey,
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => UnityFormScreen(
+                                                unity: _unityList[index],
+                                              )));
+                                },
                                 child: Row(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                     children: [
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                          'Id: ${_unityList[index].id.toString()}',
-                                          style: const TextStyle(fontSize: 18)),
-                                      Text('Nome: ${_unityList[index].name}',
-                                          style: const TextStyle(fontSize: 18)),
-                                    ],
-                                  ),
-                                  IconButton(
-                                      onPressed: () {
-                                        _deleteUnityDialog(index, context);
-                                      },
-                                      icon: const Icon(
-                                        Icons.delete,
-                                        color: Color(0xFF5B5750),
-                                        size: 40,
-                                      ))
-                                ])),
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                              'Id: ${_unityList[index].id.toString()}',
+                                              style: const TextStyle(
+                                                  fontSize: 18)),
+                                          Text(
+                                              'Nome: ${_unityList[index].name}',
+                                              style: const TextStyle(
+                                                  fontSize: 18)),
+                                        ],
+                                      ),
+                                      IconButton(
+                                          onPressed: () {
+                                            _deleteUnityDialog(index, context);
+                                          },
+                                          icon: const Icon(
+                                            Icons.delete,
+                                            color: Color(0xFF5B5750),
+                                            size: 40,
+                                          ))
+                                    ])),
                           ),
                         );
                       } else {

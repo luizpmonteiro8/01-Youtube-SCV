@@ -162,8 +162,7 @@ class _ProductFormState extends State<ProductFormScreen> {
                         autofocus: false,
                         controller: controllerId,
                         enabled: false,
-                        decoration: const InputDecoration(
-                            border: OutlineInputBorder(), hintText: 'Id'),
+                        decoration: const InputDecoration(hintText: 'Id'),
                       ),
                       const SizedBox(height: 15),
                     ]),
@@ -203,24 +202,26 @@ class _ProductFormState extends State<ProductFormScreen> {
               ),
               const SizedBox(height: 15),
               const Text('Unidade', style: TextStyle(fontSize: 18)),
-             TextField(
-                    readOnly: true,
-                    autofocus: false,
-                    enabled: true,
-                    onTap: (){ _unityDialog(context);},
-                    controller: controllerUnityId,
-                    keyboardType: TextInputType.none,
-                    onChanged: (t) {
-                      setState(() {
-                        touched = false;
-                      });
-                    },
-                    decoration: InputDecoration(
-                        hintText: 'Selecione a unidade',
-                        errorText: (touched && controllerUnityId.text == '')
-                            ? 'Campo obrigatório'
-                            : null),
-                  ),
+              TextField(
+                readOnly: true,
+                autofocus: false,
+                enabled: true,
+                onTap: () {
+                  _unityDialog(context);
+                },
+                controller: controllerUnityId,
+                keyboardType: TextInputType.none,
+                onChanged: (t) {
+                  setState(() {
+                    touched = false;
+                  });
+                },
+                decoration: InputDecoration(
+                    hintText: 'Selecione a unidade',
+                    errorText: (touched && controllerUnityId.text == '')
+                        ? 'Campo obrigatório'
+                        : null),
+              ),
               Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                 TextButton(
                     onPressed: () {

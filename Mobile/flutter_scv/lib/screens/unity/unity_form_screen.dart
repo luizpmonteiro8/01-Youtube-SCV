@@ -14,8 +14,6 @@ class UnityFormScreen extends StatefulWidget {
 
 class _UnityFormState extends State<UnityFormScreen> {
   UnityServices unityServices = UnityServices();
-  int? id;
-  String name = '';
   bool touched = false;
 
   final controllerId = TextEditingController();
@@ -113,7 +111,7 @@ class _UnityFormState extends State<UnityFormScreen> {
                       controller: controllerId,
                       enabled: false,
                       decoration: const InputDecoration(
-                          border: OutlineInputBorder(), hintText: 'Id'),
+                          hintText: 'Id'),
                     ),
                     const SizedBox(height: 15),
                   ]),

@@ -8,7 +8,8 @@ import 'package:flutter_scv/screens/unity/unity_form_screen.dart';
 import 'package:intl/intl.dart';
 
 class UnityListDialog extends StatefulWidget {
-  const UnityListDialog({super.key, required this.unity,required this.controllerUnity});
+  const UnityListDialog(
+      {super.key, required this.unity, required this.controllerUnity});
 
   final Unity? unity;
   final TextEditingController controllerUnity;
@@ -98,8 +99,7 @@ class _UnityListDialog extends State<UnityListDialog> {
                   TextField(
                     autofocus: false,
                     controller: controllerSearch,
-                    decoration: const InputDecoration(
-                        border: OutlineInputBorder(), hintText: 'Buscar'),
+                    decoration: const InputDecoration(hintText: 'Buscar'),
                   ),
                   Text(
                     'Itens Carregados: ${_unityList.length}',
@@ -136,7 +136,8 @@ class _UnityListDialog extends State<UnityListDialog> {
                                 onTap: () {
                                   widget.unity!.id = _unityList[index].id;
                                   widget.unity!.name = _unityList[index].name;
-                                  widget.controllerUnity.text=_unityList[index].name;
+                                  widget.controllerUnity.text =
+                                      _unityList[index].name;
                                   Navigator.pop(context);
                                 },
                                 child: Row(

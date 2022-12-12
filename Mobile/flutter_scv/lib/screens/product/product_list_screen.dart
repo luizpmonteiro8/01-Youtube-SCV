@@ -24,8 +24,7 @@ class _ProductListState extends State<ProductListScreen> {
 
   final controllerSearch = TextEditingController();
 
-  var formatMoney = NumberFormat.currency(locale: "pt_BR",
-      symbol: "R\$");
+  var formatMoney = NumberFormat.currency(locale: "pt_BR", symbol: "R\$");
 
   @override
   void initState() {
@@ -86,7 +85,7 @@ class _ProductListState extends State<ProductListScreen> {
         builder: (context) {
           return AlertDialog(
             title: Text(
-                'Deseja deletar produto com nome: ${_productList[index].name}'
+                'Deseja deletar produto com nome: ${_productList[index].name} '
                 'e id: ${_productList[index].id.toString()}?'),
             actions: [
               TextButton(
@@ -194,8 +193,7 @@ class _ProductListState extends State<ProductListScreen> {
                   TextField(
                     autofocus: false,
                     controller: controllerSearch,
-                    decoration: const InputDecoration(
-                        border: OutlineInputBorder(), hintText: 'Buscar'),
+                    decoration: const InputDecoration(hintText: 'Buscar'),
                   ),
                   Text(
                     'Itens Carregados: ${_productList.length}',
@@ -228,43 +226,53 @@ class _ProductListState extends State<ProductListScreen> {
                           child: Padding(
                             padding: const EdgeInsets.all(20.0),
                             child: InkWell(
-                              highlightColor: Colors.grey,
-                              onTap: (){
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>  ProductFormScreen(product: _productList[index],)));
-
-                               },
+                                highlightColor: Colors.grey,
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              ProductFormScreen(
+                                                product: _productList[index],
+                                              )));
+                                },
                                 child: Row(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                     children: [
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                          'Id: ${_productList[index].id.toString()}',
-                                          style: const TextStyle(fontSize: 18)),
-                                      Text('Nome: ${_productList[index].name}',
-                                          style: const TextStyle(fontSize: 18)),
-                                      Text('Preço de venda: ${formatMoney.format(_productList[index].priceSale)}',
-                                          style: const TextStyle(fontSize: 18)),
-                                      Text('Unidade: ${_productList[index].unity!.name}',
-                                          style: const TextStyle(fontSize: 18)),
-                                    ],
-                                  ),
-                                  IconButton(
-                                      onPressed: () {
-                                        _deleteProductDialog(index, context);
-                                      },
-                                      icon: const Icon(
-                                        Icons.delete,
-                                        color: Color(0xFF5B5750),
-                                        size: 40,
-                                      ))
-                                ])),
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                              'Id: ${_productList[index].id.toString()}',
+                                              style: const TextStyle(
+                                                  fontSize: 18)),
+                                          Text(
+                                              'Nome: ${_productList[index].name}',
+                                              style: const TextStyle(
+                                                  fontSize: 18)),
+                                          Text(
+                                              'Preço de venda: ${formatMoney.format(_productList[index].priceSale)}',
+                                              style: const TextStyle(
+                                                  fontSize: 18)),
+                                          Text(
+                                              'Unidade: ${_productList[index].unity!.name}',
+                                              style: const TextStyle(
+                                                  fontSize: 18)),
+                                        ],
+                                      ),
+                                      IconButton(
+                                          onPressed: () {
+                                            _deleteProductDialog(
+                                                index, context);
+                                          },
+                                          icon: const Icon(
+                                            Icons.delete,
+                                            color: Color(0xFF5B5750),
+                                            size: 40,
+                                          ))
+                                    ])),
                           ),
                         );
                       } else {
