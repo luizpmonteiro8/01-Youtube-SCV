@@ -1,9 +1,9 @@
 import { PartialType } from '@nestjs/mapped-types';
 import { Type } from 'class-transformer';
-import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
-import { CreateProductDto } from './create-product.dto';
+import { IsNumber } from 'class-validator';
+import { CreateSaleItemDto } from './create-sale-item.dto';
 
-export class UpdateProductDto extends PartialType(CreateProductDto) {
+export class UpdateSaleItemDto extends PartialType(CreateSaleItemDto) {
   @IsNumber({}, { message: 'O id não pode ser vazio.' })
   @Type(() => Number)
   readonly id: bigint;

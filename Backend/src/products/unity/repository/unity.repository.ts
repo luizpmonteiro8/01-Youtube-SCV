@@ -33,11 +33,15 @@ export class UnityRepository {
   }
 
   async create(createUnityDTO: CreateUnityDto) {
-    return await this.prisma.unity.create({ data: createUnityDTO });
+    return await this.prisma.unity.create({
+      select: { id: true },
+      data: createUnityDTO,
+    });
   }
 
   async update(id: bigint, updateUnityDTO: UpdateUnityDto) {
     return await this.prisma.unity.update({
+      select: { id: true },
       where: { id },
       data: updateUnityDTO,
     });
@@ -45,6 +49,7 @@ export class UnityRepository {
 
   async remove(id: bigint) {
     return await this.prisma.unity.delete({
+      select: { id: true },
       where: { id },
     });
   }

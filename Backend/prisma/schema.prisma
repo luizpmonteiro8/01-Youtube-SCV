@@ -13,17 +13,90 @@ datasource db {
 model Unity {
   id      BigInt    @id @default(autoincrement())
   name    String    @unique
-  Product Product[]
+  product Product[]
 
   @@map("unity")
 }
 
 model Product {
-  id        BigInt  @id @default(autoincrement())
-  name      String  @unique
-  priceSale Decimal @db.Money
-  unity     Unity   @relation(fields: [unityId], references: [id])
-  unityId   BigInt  @map("unity_id")
+  id         BigInt     @id @default(autoincrement())
+  name       String     @unique
+  priceSale  Decimal    @db.Money
+  unity      Unity      @relation(fields: [unityId], references: [id])
+  unityId    BigInt     @map("unity_id")
+  categories Category[]
+  saleItem   SaleItem[]
 
   @@map("product")
+}
+
+model Category {
+  id       BigInt    @id @default(autoincrement())
+  name     String    @unique
+  products Product[]
+
+  @@map("category")
+}
+
+model Address {
+  id         BigInt  @id @default(autoincrement())
+  street     String
+  number     String
+  complement String?
+  zipCode    String
+  district   String
+  state      String
+  country    String
+  seller     Seller? @relation(fields: [sellerId], references: [id], onDelete: Cascade)
+  sellerId   BigInt? @unique
+  client     Client? @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  clientId   BigInt? @unique
+
+  @@map("address")
+}
+
+model Seller {
+  id   BigInt @id @default(autoincrement())
+  name String @unique
+
+  address Address?
+  sale    Sale[]
+
+  @@map("seller")
+}
+
+model Client {
+  id      BigInt   @id @default(autoincrement())
+  name    String   @unique
+  cpf     String   @unique
+  sale    Sale[]
+  address Address?
+
+  @@map("client")
+}
+
+model Sale {
+  id         BigInt     @id @default(autoincrement())
+  date       DateTime   @default(now())
+  toDelivery Boolean
+  delivered  Boolean
+  client     Client     @relation(fields: [clientId], references: [id])
+  clientId   BigInt
+  seller     Seller     @relation(fields: [sellerId], references: [id])
+  sellerId   BigInt
+  saleItem   SaleItem[]
+
+  @@map("sale")
+}
+
+model SaleItem {
+  id        BigInt  @id @default(autoincrement())
+  price     Decimal @db.Money
+  quantity  Decimal @db.Decimal(15, 3)
+  sale      Sale    @relation(fields: [saleId], references: [id], onDelete: Cascade)
+  saleId    BigInt
+  product   Product @relation(fields: [productId], references: [id])
+  productId BigInt
+
+  @@map("sale_item")
 }

@@ -19,7 +19,7 @@ export class ProductRepository {
       take: Number(size),
       where: { name: { contains: search, mode: 'insensitive' } },
       orderBy: { [sort]: order },
-      include: { unity: true },
+      include: { unity: true, categories: true },
     });
     const totalItems = await this.prisma.product.count({
       where: { name: { contains: search, mode: 'insensitive' } },
@@ -35,18 +35,50 @@ export class ProductRepository {
   }
 
   async create(createProductDTO: CreateProductDto) {
-    return await this.prisma.product.create({ data: createProductDTO });
+    return await this.prisma.product.create({
+      select: { id: true },
+      data: {
+        name: createProductDTO.name,
+        priceSale: createProductDTO.priceSale,
+        unityId: createProductDTO.unityId,
+        categories: {
+          connect: createProductDTO.categoryId.map((itemCategory) => ({
+            id: itemCategory,
+          })),
+        },
+      },
+    });
   }
 
   async update(id: bigint, updateProductDTO: UpdateProductDto) {
-    return await this.prisma.product.update({
+    await this.prisma.product.update({
       where: { id },
-      data: updateProductDTO,
+      data: {
+        categories: {
+          set: [],
+        },
+      },
+    });
+
+    return await this.prisma.product.update({
+      select: { id: true },
+      where: { id },
+      data: {
+        name: updateProductDTO.name,
+        priceSale: updateProductDTO.priceSale,
+        unityId: updateProductDTO.unityId,
+        categories: {
+          connect: updateProductDTO.categoryId.map((itemCategory) => ({
+            id: itemCategory,
+          })),
+        },
+      },
     });
   }
 
   async remove(id: bigint) {
     return await this.prisma.product.delete({
+      select: { id: true },
       where: { id },
     });
   }
