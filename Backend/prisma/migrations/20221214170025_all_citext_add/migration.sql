@@ -1,0 +1,11 @@
+-- AlterTable
+ALTER TABLE "category" ALTER COLUMN "name" SET DATA TYPE CITEXT;
+
+-- AlterTable
+ALTER TABLE "client" ALTER COLUMN "name" SET DATA TYPE CITEXT;
+
+-- AlterTable
+ALTER TABLE "product" ALTER COLUMN "name" SET DATA TYPE CITEXT;
+
+-- AlterTable
+ALTER TABLE "seller" ALTER COLUMN "name" SET DATA TYPE CITEXT;

@@ -38,6 +38,11 @@ export class ErrorsInterceptor implements NestInterceptor {
                 'Um registro com esse nome já existe.',
               );
             }
+            if (err.message.includes('cpf')) {
+              throw new ConflictException(
+                'Um registro com esse cpf já existe.',
+              );
+            }
           case 'P2025':
             throw new NotFoundException('Registro não encontrado.');
           case 'P2003':

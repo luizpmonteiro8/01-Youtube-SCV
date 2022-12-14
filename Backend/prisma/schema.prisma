@@ -2,17 +2,19 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["postgresqlExtensions"]
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider   = "postgresql"
+  url        = env("DATABASE_URL")
+  extensions = [pgcrypto, citext]
 }
 
 model Unity {
   id      BigInt    @id @default(autoincrement())
-  name    String    @unique
+  name    String    @unique @db.Citext
   product Product[]
 
   @@map("unity")
@@ -20,7 +22,7 @@ model Unity {
 
 model Product {
   id         BigInt     @id @default(autoincrement())
-  name       String     @unique
+  name       String     @unique @db.Citext
   priceSale  Decimal    @db.Money
   unity      Unity      @relation(fields: [unityId], references: [id])
   unityId    BigInt     @map("unity_id")
@@ -32,7 +34,7 @@ model Product {
 
 model Category {
   id       BigInt    @id @default(autoincrement())
-  name     String    @unique
+  name     String    @unique @db.Citext
   products Product[]
 
   @@map("category")
@@ -57,7 +59,7 @@ model Address {
 
 model Seller {
   id   BigInt @id @default(autoincrement())
-  name String @unique
+  name String @unique @db.Citext
 
   address Address?
   sale    Sale[]
@@ -67,7 +69,7 @@ model Seller {
 
 model Client {
   id      BigInt   @id @default(autoincrement())
-  name    String   @unique
+  name    String   @unique @db.Citext
   cpf     String   @unique
   sale    Sale[]
   address Address?

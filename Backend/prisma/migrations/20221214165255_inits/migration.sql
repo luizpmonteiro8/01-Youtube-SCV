@@ -1,7 +1,13 @@
+-- CreateExtension
+CREATE EXTENSION IF NOT EXISTS "citext";
+
+-- CreateExtension
+CREATE EXTENSION IF NOT EXISTS "pgcrypto";
+
 -- CreateTable
 CREATE TABLE "unity" (
     "id" BIGSERIAL NOT NULL,
-    "name" TEXT NOT NULL,
+    "name" CITEXT NOT NULL,
 
     CONSTRAINT "unity_pkey" PRIMARY KEY ("id")
 );
@@ -34,6 +40,8 @@ CREATE TABLE "address" (
     "district" TEXT NOT NULL,
     "state" TEXT NOT NULL,
     "country" TEXT NOT NULL,
+    "sellerId" BIGINT,
+    "clientId" BIGINT,
 
     CONSTRAINT "address_pkey" PRIMARY KEY ("id")
 );
@@ -42,7 +50,6 @@ CREATE TABLE "address" (
 CREATE TABLE "seller" (
     "id" BIGSERIAL NOT NULL,
     "name" TEXT NOT NULL,
-    "addressId" BIGINT NOT NULL,
 
     CONSTRAINT "seller_pkey" PRIMARY KEY ("id")
 );
@@ -52,7 +59,6 @@ CREATE TABLE "client" (
     "id" BIGSERIAL NOT NULL,
     "name" TEXT NOT NULL,
     "cpf" TEXT NOT NULL,
-    "addressId" BIGINT NOT NULL,
 
     CONSTRAINT "client_pkey" PRIMARY KEY ("id")
 );
@@ -61,6 +67,8 @@ CREATE TABLE "client" (
 CREATE TABLE "sale" (
     "id" BIGSERIAL NOT NULL,
     "date" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "toDelivery" BOOLEAN NOT NULL,
+    "delivered" BOOLEAN NOT NULL,
     "clientId" BIGINT NOT NULL,
     "sellerId" BIGINT NOT NULL,
 
@@ -94,6 +102,21 @@ CREATE UNIQUE INDEX "product_name_key" ON "product"("name");
 CREATE UNIQUE INDEX "category_name_key" ON "category"("name");
 
 -- CreateIndex
+CREATE UNIQUE INDEX "address_sellerId_key" ON "address"("sellerId");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "address_clientId_key" ON "address"("clientId");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "seller_name_key" ON "seller"("name");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "client_name_key" ON "client"("name");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "client_cpf_key" ON "client"("cpf");
+
+-- CreateIndex
 CREATE UNIQUE INDEX "_CategoryToProduct_AB_unique" ON "_CategoryToProduct"("A", "B");
 
 -- CreateIndex
@@ -103,10 +126,10 @@ CREATE INDEX "_CategoryToProduct_B_index" ON "_CategoryToProduct"("B");
 ALTER TABLE "product" ADD CONSTRAINT "product_unity_id_fkey" FOREIGN KEY ("unity_id") REFERENCES "unity"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "seller" ADD CONSTRAINT "seller_addressId_fkey" FOREIGN KEY ("addressId") REFERENCES "address"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "address" ADD CONSTRAINT "address_sellerId_fkey" FOREIGN KEY ("sellerId") REFERENCES "seller"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "client" ADD CONSTRAINT "client_addressId_fkey" FOREIGN KEY ("addressId") REFERENCES "address"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "address" ADD CONSTRAINT "address_clientId_fkey" FOREIGN KEY ("clientId") REFERENCES "client"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "sale" ADD CONSTRAINT "sale_clientId_fkey" FOREIGN KEY ("clientId") REFERENCES "client"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
@@ -115,7 +138,7 @@ ALTER TABLE "sale" ADD CONSTRAINT "sale_clientId_fkey" FOREIGN KEY ("clientId") 
 ALTER TABLE "sale" ADD CONSTRAINT "sale_sellerId_fkey" FOREIGN KEY ("sellerId") REFERENCES "seller"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "sale_item" ADD CONSTRAINT "sale_item_saleId_fkey" FOREIGN KEY ("saleId") REFERENCES "sale"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "sale_item" ADD CONSTRAINT "sale_item_saleId_fkey" FOREIGN KEY ("saleId") REFERENCES "sale"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "sale_item" ADD CONSTRAINT "sale_item_productId_fkey" FOREIGN KEY ("productId") REFERENCES "product"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
