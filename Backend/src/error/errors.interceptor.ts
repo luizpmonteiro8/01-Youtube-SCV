@@ -7,7 +7,7 @@ import {
   ConflictException,
   NotFoundException,
 } from '@nestjs/common';
-import { Observable, throwError } from 'rxjs';
+import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 @Injectable()

@@ -61,10 +61,22 @@ model Seller {
   id   BigInt @id @default(autoincrement())
   name String @unique @db.Citext
 
+  user    User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId  BigInt   @unique
   address Address?
   sale    Sale[]
 
   @@map("seller")
+}
+
+model User {
+  id       BigInt  @id @default(autoincrement())
+  email    String  @unique
+  password String
+  enabled  Boolean
+  seller   Seller?
+
+  @@map("user")
 }
 
 model Client {
@@ -82,9 +94,9 @@ model Sale {
   date       DateTime   @default(now())
   toDelivery Boolean
   delivered  Boolean
-  client     Client     @relation(fields: [clientId], references: [id])
+  client     Client     @relation(fields: [clientId], references: [id], onDelete: Restrict)
   clientId   BigInt
-  seller     Seller     @relation(fields: [sellerId], references: [id])
+  seller     Seller     @relation(fields: [sellerId], references: [id], onDelete: Restrict)
   sellerId   BigInt
   saleItem   SaleItem[]
 

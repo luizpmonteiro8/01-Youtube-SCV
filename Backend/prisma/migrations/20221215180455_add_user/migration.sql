@@ -15,7 +15,7 @@ CREATE TABLE "unity" (
 -- CreateTable
 CREATE TABLE "product" (
     "id" BIGSERIAL NOT NULL,
-    "name" TEXT NOT NULL,
+    "name" CITEXT NOT NULL,
     "priceSale" MONEY NOT NULL,
     "unity_id" BIGINT NOT NULL,
 
@@ -25,7 +25,7 @@ CREATE TABLE "product" (
 -- CreateTable
 CREATE TABLE "category" (
     "id" BIGSERIAL NOT NULL,
-    "name" TEXT NOT NULL,
+    "name" CITEXT NOT NULL,
 
     CONSTRAINT "category_pkey" PRIMARY KEY ("id")
 );
@@ -49,15 +49,26 @@ CREATE TABLE "address" (
 -- CreateTable
 CREATE TABLE "seller" (
     "id" BIGSERIAL NOT NULL,
-    "name" TEXT NOT NULL,
+    "name" CITEXT NOT NULL,
+    "userId" BIGINT NOT NULL,
 
     CONSTRAINT "seller_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
+CREATE TABLE "user" (
+    "id" BIGSERIAL NOT NULL,
+    "email" TEXT NOT NULL,
+    "password" TEXT NOT NULL,
+    "enabled" BOOLEAN NOT NULL,
+
+    CONSTRAINT "user_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
 CREATE TABLE "client" (
     "id" BIGSERIAL NOT NULL,
-    "name" TEXT NOT NULL,
+    "name" CITEXT NOT NULL,
     "cpf" TEXT NOT NULL,
 
     CONSTRAINT "client_pkey" PRIMARY KEY ("id")
@@ -111,6 +122,9 @@ CREATE UNIQUE INDEX "address_clientId_key" ON "address"("clientId");
 CREATE UNIQUE INDEX "seller_name_key" ON "seller"("name");
 
 -- CreateIndex
+CREATE UNIQUE INDEX "user_email_key" ON "user"("email");
+
+-- CreateIndex
 CREATE UNIQUE INDEX "client_name_key" ON "client"("name");
 
 -- CreateIndex
@@ -130,6 +144,9 @@ ALTER TABLE "address" ADD CONSTRAINT "address_sellerId_fkey" FOREIGN KEY ("selle
 
 -- AddForeignKey
 ALTER TABLE "address" ADD CONSTRAINT "address_clientId_fkey" FOREIGN KEY ("clientId") REFERENCES "client"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "seller" ADD CONSTRAINT "seller_userId_fkey" FOREIGN KEY ("userId") REFERENCES "user"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "sale" ADD CONSTRAINT "sale_clientId_fkey" FOREIGN KEY ("clientId") REFERENCES "client"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

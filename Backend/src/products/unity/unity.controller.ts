@@ -7,7 +7,9 @@ import {
   Patch,
   Param,
   Delete,
+  UseGuards,
 } from '@nestjs/common';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { CreateUnityDto } from './dto/create-unity.dto';
 import { UpdateUnityDto } from './dto/update-unity.dto';
 import { UnityService } from './unity.service';
@@ -17,6 +19,7 @@ export class UnityController {
   constructor(private readonly unityService: UnityService) {}
 
   @Get('pages?')
+  @UseGuards(JwtAuthGuard)
   async pagination(@Request() request) {
     return await this.unityService.paginate(
       request.query.hasOwnProperty('page') ? request.query.page : 0,
@@ -28,16 +31,19 @@ export class UnityController {
   }
 
   @Get(':id')
+  @UseGuards(JwtAuthGuard)
   async findById(@Param('id') id: string) {
     return await this.unityService.findById(BigInt(id));
   }
 
   @Post()
+  @UseGuards(JwtAuthGuard)
   async create(@Body() createUnityDTO: CreateUnityDto) {
     return await this.unityService.create(createUnityDTO);
   }
 
   @Patch(':id')
+  @UseGuards(JwtAuthGuard)
   async update(
     @Param('id') id: string,
     @Body() updateUnityDto: UpdateUnityDto,

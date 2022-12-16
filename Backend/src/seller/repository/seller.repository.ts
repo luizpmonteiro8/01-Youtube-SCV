@@ -34,7 +34,7 @@ export class SellerRepository {
     });
   }
 
-  async create(createSellerDTO: CreateSellerDto) {
+  /*  async create(createSellerDTO: CreateSellerDto) {
     return await this.prisma.seller.create({
       select: { id: true },
       data: {
@@ -42,7 +42,7 @@ export class SellerRepository {
         address: { create: { ...createSellerDTO.address } },
       },
     });
-  }
+  } */
 
   async update(id: bigint, updateSellerDTO: UpdateSellerDto) {
     return await this.prisma.seller.update({

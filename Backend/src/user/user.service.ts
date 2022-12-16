@@ -1,11 +1,12 @@
 import { Injectable } from '@nestjs/common';
-import { CreateSellerDto } from './dto/create-seller.dto';
-import { UpdateSellerDto } from './dto/update-seller.dto';
-import { SellerRepository } from './repository/seller.repository';
+import { CreateUserDto } from './dto/create-user.dto';
+import { UpdateUserDto } from './dto/update-user.dto';
+import { UserRepository } from './repository/user.repository';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
-export class SellerService {
-  constructor(private readonly repository: SellerRepository) {}
+export class UserService {
+  constructor(private readonly repository: UserRepository) {}
 
   async paginate(
     page: number,
@@ -41,12 +42,14 @@ export class SellerService {
     return await this.repository.findById(id);
   }
 
-  /*   async create(createSellerDTO: CreateSellerDto) {
-    return await this.repository.create(createSellerDTO);
-  } */
+  async create(createUserDTO: CreateUserDto) {
+    createUserDTO.password = bcrypt.hashSync(createUserDTO.password, 10);
+    return await this.repository.create(createUserDTO);
+  }
 
-  async update(id: bigint, updateSellerDTO: UpdateSellerDto) {
-    return await this.repository.update(id, updateSellerDTO);
+  async update(id: bigint, updateUserDTO: UpdateUserDto) {
+    updateUserDTO.password = bcrypt.hashSync(updateUserDTO.password, 10);
+    return await this.repository.update(id, updateUserDTO);
   }
 
   async remove(id: bigint) {

@@ -9,19 +9,19 @@ import {
   Delete,
   UseGuards,
 } from '@nestjs/common';
-import { CreateClientDto } from './dto/create-client.dto';
-import { UpdateClientDto } from './dto/update-client.dto';
-import { ClientService } from './client.service';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { CreateUserDto } from './dto/create-user.dto';
+import { UpdateUserDto } from './dto/update-user.dto';
+import { UserService } from './user.service';
 
-@Controller('client')
-export class ClientController {
-  constructor(private readonly clientService: ClientService) {}
+@Controller('user')
+export class UserController {
+  constructor(private readonly userService: UserService) {}
 
   @Get('pages?')
   @UseGuards(JwtAuthGuard)
   async pagination(@Request() request) {
-    return await this.clientService.paginate(
+    return await this.userService.paginate(
       request.query.hasOwnProperty('page') ? request.query.page : 0,
       request.query.hasOwnProperty('size') ? request.query.size : 10,
       request.query.hasOwnProperty('sort') ? request.query.sort : 'name',
@@ -33,27 +33,23 @@ export class ClientController {
   @Get(':id')
   @UseGuards(JwtAuthGuard)
   async findById(@Param('id') id: string) {
-    return await this.clientService.findById(BigInt(id));
+    return await this.userService.findById(BigInt(id));
   }
 
   @Post()
-  @UseGuards(JwtAuthGuard)
-  async create(@Body() createClientDTO: CreateClientDto) {
-    return await this.clientService.create(createClientDTO);
+  async create(@Body() createUserDTO: CreateUserDto) {
+    return await this.userService.create(createUserDTO);
   }
 
   @Patch(':id')
   @UseGuards(JwtAuthGuard)
-  async update(
-    @Param('id') id: string,
-    @Body() updateClientDto: UpdateClientDto,
-  ) {
-    return await this.clientService.update(BigInt(id), updateClientDto);
+  async update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
+    return await this.userService.update(BigInt(id), updateUserDto);
   }
 
   @Delete(':id')
   @UseGuards(JwtAuthGuard)
   async remove(@Param('id') id: string) {
-    return await this.clientService.remove(BigInt(id));
+    return await this.userService.remove(BigInt(id));
   }
 }
