@@ -22,13 +22,21 @@ export class ErrorsInterceptor implements NestInterceptor {
         console.log(err.name);
         console.log(err.response);
         console.log(Object.keys(context));
-        console.log('args', context.getArgs());
+        console.log('args', context.getArgs()[0].url);
         console.log('args', context.getArgs()[0].method);
+        console.log(context.getArgs()[0].url);
 
         if (err.name.includes('NotFoundError'))
           throw new NotFoundException('Registro não encontrado.');
-        if (err.response?.message) {
+        if (err.response?.message && context.getArgs()[0].url != '/login') {
           throw new ConflictException(err.response.message[0]);
+        }
+        if (err.response?.message && context.getArgs()[0].url == '/login') {
+          throw new NotFoundException(
+            typeof err.response.message == 'string'
+              ? err.response.message
+              : err.response.message[0],
+          );
         }
 
         switch (code) {
