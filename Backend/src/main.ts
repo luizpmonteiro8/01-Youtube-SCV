@@ -5,7 +5,6 @@ import { SwaggerModule } from '@nestjs/swagger/dist';
 import { AppModule } from './app.module';
 import { ErrorsInterceptor } from './error/errors.interceptor';
 import { HttpExceptionFilter } from './error/http-exception.filter';
-
 require('../patch.js');
 
 async function bootstrap() {

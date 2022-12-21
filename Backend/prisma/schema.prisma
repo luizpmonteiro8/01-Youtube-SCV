@@ -20,6 +20,14 @@ model Unity {
   @@map("unity")
 }
 
+model Category {
+  id       BigInt    @id @default(autoincrement())
+  name     String    @unique @db.Citext
+  products Product[]
+
+  @@map("category")
+}
+
 model Product {
   id         BigInt     @id @default(autoincrement())
   name       String     @unique @db.Citext
@@ -30,14 +38,6 @@ model Product {
   saleItem   SaleItem[]
 
   @@map("product")
-}
-
-model Category {
-  id       BigInt    @id @default(autoincrement())
-  name     String    @unique @db.Citext
-  products Product[]
-
-  @@map("category")
 }
 
 model Address {

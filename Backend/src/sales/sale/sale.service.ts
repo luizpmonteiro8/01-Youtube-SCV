@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { ProductRepository } from 'src/products/product/repository/product.repository';
-import { SaleItemService } from '../saleItem/saleItem.service';
 import { CreateSaleDto } from './dto/create-sale.dto';
 import { UpdateSaleDto } from './dto/update-sale.dto';
 import { SaleRepository } from './repository/sale.repository';

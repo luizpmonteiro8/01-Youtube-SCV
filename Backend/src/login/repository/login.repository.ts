@@ -7,7 +7,7 @@ export class LoginRepository {
 
   async findUserByEmail(email: string) {
     return await this.prisma.user.findFirstOrThrow({
-      where: { email },
+      where: { email, enabled: true },
     });
   }
 }

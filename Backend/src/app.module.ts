@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { AuthModule } from './auth/auth.module';
 import { ClientModule } from './client/client.module';
+import { DashboardModule } from './dashboard/dashboard.module';
 import { LoginModule } from './login/login.module';
 import { PrismaService } from './prisma/prisma.service';
 import { CategoryModule } from './products/category/category.module';
@@ -20,6 +21,7 @@ import { UserModule } from './user/user.module';
     SaleModule,
     UserModule,
     LoginModule,
+    DashboardModule,
     AuthModule,
   ],
   controllers: [],

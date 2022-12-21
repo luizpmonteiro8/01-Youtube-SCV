@@ -1,5 +1,4 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
-import { JwtService } from '@nestjs/jwt';
 import { User } from '@prisma/client';
 import { LoginRepository } from 'src/login/repository/login.repository';
 import { sign } from 'jsonwebtoken';

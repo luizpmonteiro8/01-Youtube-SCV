@@ -24,7 +24,6 @@ export class ErrorsInterceptor implements NestInterceptor {
         console.log(Object.keys(context));
         console.log('args', context.getArgs()[0].url);
         console.log('args', context.getArgs()[0].method);
-        console.log(context.getArgs()[0].url);
 
         if (err.name.includes('NotFoundError'))
           throw new NotFoundException('Registro não encontrado.');

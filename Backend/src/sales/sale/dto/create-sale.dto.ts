@@ -9,7 +9,6 @@ import {
   ValidateNested,
 } from 'class-validator';
 import { CreateSaleItemDto } from 'src/sales/saleItem/dto/create-sale-item.dto';
-import { getSchemaPath } from '@nestjs/swagger';
 
 export class CreateSaleDto {
   @ApiProperty({
