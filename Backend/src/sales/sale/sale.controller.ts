@@ -22,6 +22,7 @@ import {
 } from '@nestjs/swagger/dist/decorators/api-response.decorator';
 import { ApiQuery } from '@nestjs/swagger/dist/decorators/api-query.decorator';
 import { ApiTags, ApiOperation } from '@nestjs/swagger';
+import { AuthService } from 'src/auth/auth.service';
 
 @ApiBearerAuth()
 @ApiUnauthorizedResponse({
@@ -33,7 +34,10 @@ import { ApiTags, ApiOperation } from '@nestjs/swagger';
 @ApiTags('SCV')
 @Controller('sale')
 export class SaleController {
-  constructor(private readonly saleService: SaleService) {}
+  constructor(
+    private readonly saleService: SaleService,
+    private readonly authService: AuthService,
+  ) {}
 
   @ApiResponse({
     status: 200,
@@ -91,8 +95,8 @@ export class SaleController {
   @ApiOperation({ summary: 'Cria cadastro' })
   @Post()
   @UseGuards(JwtAuthGuard)
-  async create(@Body() createSaleDTO: CreateSaleDto) {
-    createSaleDTO.sellerId = 1;
+  async create(@Request() request, @Body() createSaleDTO: CreateSaleDto) {
+    createSaleDTO.sellerId = await this.authService.getSellerIdFromJwt(request);
     return await this.saleService.create(createSaleDTO);
   }
 
@@ -107,8 +111,12 @@ export class SaleController {
   @ApiOperation({ summary: 'Atualiza cadastro' })
   @Patch(':id')
   @UseGuards(JwtAuthGuard)
-  async update(@Param('id') id: string, @Body() updateSaleDto: UpdateSaleDto) {
-    updateSaleDto.sellerId = 1;
+  async update(
+    @Param('id') id: string,
+    @Body() updateSaleDto: UpdateSaleDto,
+    @Request() request,
+  ) {
+    updateSaleDto.sellerId = await this.authService.getSellerIdFromJwt(request);
     return await this.saleService.update(BigInt(id), updateSaleDto);
   }
 

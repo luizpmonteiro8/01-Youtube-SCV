@@ -43,5 +43,5 @@ export class CreateSaleDto {
   @Type(() => CreateSaleItemDto)
   saleItem: CreateSaleItemDto[];
 
-  sellerId: number;
+  sellerId: bigint;
 }

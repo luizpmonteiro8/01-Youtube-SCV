@@ -10,4 +10,12 @@ export class LoginRepository {
       where: { email, enabled: true },
     });
   }
+
+  async findSellerIdByUserId(userId: string) {
+    const resp = await this.prisma.user.findFirstOrThrow({
+      where: { id: BigInt(userId), enabled: true },
+      include: { seller: true },
+    });
+    return resp.seller.id;
+  }
 }

@@ -1,7 +1,7 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { User } from '@prisma/client';
 import { LoginRepository } from 'src/login/repository/login.repository';
-import { sign } from 'jsonwebtoken';
+import { sign, verify } from 'jsonwebtoken';
 
 @Injectable()
 export class AuthService {
@@ -16,10 +16,31 @@ export class AuthService {
   }
 
   async login(user: User) {
-    const payload = { email: user.email, sub: user.id };
+    const payload = { email: user.email, userId: user.id };
 
     return sign(payload, process.env.JWT_SECRET, {
       expiresIn: process.env.JWT_EXPIRATION,
     });
+  }
+
+  private jwtExtractor(headers) {
+    const tokenBearer: string = headers.authorization;
+    console.log('authorization', headers.authorization);
+
+    const [, token] = tokenBearer.split(' ');
+    return token;
+  }
+
+  async getSellerIdFromJwt(req) {
+    const token = this.jwtExtractor(req.headers);
+    const claims = verify(token, process.env.JWT_SECRET);
+    console.log('claims', claims);
+
+    const sellerId = await this.loginRepository.findSellerIdByUserId(
+      claims['userId'],
+    );
+    console.log('selletId', sellerId);
+
+    return sellerId;
   }
 }
