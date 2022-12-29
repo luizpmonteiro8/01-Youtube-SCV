@@ -1,6 +1,7 @@
+import * as Styled from "./styles";
 import { useRouter } from "next/router";
 import { DropMenu } from "../dropmenu";
-import * as Styled from "./styles";
+import { signOut } from "next-auth/react";
 
 export const Menu = () => {
   const router = useRouter();
@@ -45,7 +46,14 @@ export const Menu = () => {
             </a>
           </DropMenu>
         </Styled.DropDown>
-        <i className="material-icons">logout</i>
+        <i
+          className="material-icons"
+          onClick={() => {
+            signOut();
+          }}
+        >
+          logout
+        </i>
       </Styled.Right>
     </Styled.Wrapper>
   );

@@ -1,5 +1,5 @@
-import { UnityListTp } from "templates/unity/list";
+import { LoginTp } from "templates/login";
 
-export default function UnityListPage() {
-  return <UnityListTp />;
+export default function IndexPage() {
+  return <LoginTp />;
 }
