@@ -1,25 +1,21 @@
 import styled, { css } from "styled-components";
+import { ThemeType } from "theme";
+
+type Props = {
+  theme: ThemeType;
+};
 
 export const Wrapper = styled.div`
   ${() => css`
-    h1,
-    h3 {
-      margin: 0;
-      padding: 0;
-    }
-
     h1 {
       margin: 0 auto;
       width: fit-content;
-    }
-    a {
-      cursor: pointer;
     }
   `}
 `;
 
 export const Table = styled.table`
-  ${() => css`
+  ${({ theme }: Props) => css`
     margin-top: 15px;
     margin: 0 auto;
      {
@@ -30,23 +26,23 @@ export const Table = styled.table`
 
     td,
     th {
-      border: 1px solid #ddd;
+      border: 1px solid ${theme.tableBorderHeader};
       padding: 8px;
     }
 
     tr:nth-child(even) {
-      background-color: #f2f2f2;
+      background-color: ${theme.tableEven};
     }
 
     tr:hover {
-      background-color: #ddd;
+      background-color: ${theme.tableHover};
     }
 
     th {
       padding-top: 12px;
       padding-bottom: 12px;
       text-align: left;
-      background-color: #c4cbd7;
+      background-color: ${theme.tableHead};
       color: white;
     }
   `}

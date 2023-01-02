@@ -50,6 +50,11 @@ export class ErrorsInterceptor implements NestInterceptor {
                 'Um registro com esse cpf já existe.',
               );
             }
+            if (err.message.includes('email')) {
+              throw new ConflictException(
+                'Um registro com esse email já existe.',
+              );
+            }
           case 'P2025':
             throw new NotFoundException('Registro não encontrado.');
           case 'P2003':

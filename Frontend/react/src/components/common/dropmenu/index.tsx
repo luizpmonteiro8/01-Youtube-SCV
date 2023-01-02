@@ -1,7 +1,7 @@
 import * as Styled from "./styles";
 
 type Props = {
-  title: string;
+  title: string | React.ReactNode;
   children: React.ReactNode;
 };
 

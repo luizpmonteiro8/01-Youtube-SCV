@@ -2,18 +2,9 @@ import styled, { css } from "styled-components";
 
 export const Wrapper = styled.div`
   ${() => css`
-    h1,
-    h3 {
-      margin: 0;
-      padding: 0;
-    }
-
     h1 {
       margin: 0 auto;
       width: fit-content;
-    }
-    a {
-      cursor: pointer;
     }
   `}
 `;

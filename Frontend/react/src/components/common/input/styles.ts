@@ -9,5 +9,11 @@ export const Wrapper = styled.div`
     small {
       color: red;
     }
+
+    input {
+      border-radius: 5px;
+      border: 2px solid #a2a2a2;
+      height: 35px;
+    }
   `}
 `;

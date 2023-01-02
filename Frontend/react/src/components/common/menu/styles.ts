@@ -1,10 +1,15 @@
 import styled, { css } from "styled-components";
+import { ThemeType } from "theme";
+
+type Props = {
+  theme: ThemeType;
+};
 
 export const Wrapper = styled.div`
-  ${() => css`
+  ${({ theme }: Props) => css`
     height: 30px;
     padding: 10px;
-    background-color: #c4cbd7;
+    background-color: ${theme.menuBG};
 
     display: flex;
     align-items: center;
@@ -39,5 +44,13 @@ export const Right = styled.div`
 export const DropDown = styled.div`
   ${() => css`
     display: flex;
+  `}
+`;
+
+export const Logout = styled.div`
+  ${() => css`
+    display: flex;
+    flex-direction: row;
+    align-items: center;
   `}
 `;

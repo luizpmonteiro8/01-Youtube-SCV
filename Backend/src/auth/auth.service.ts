@@ -39,7 +39,7 @@ export class AuthService {
     const sellerId = await this.loginRepository.findSellerIdByUserId(
       claims['userId'],
     );
-    console.log('selletId', sellerId);
+    console.log('sellerId', sellerId);
 
     return sellerId;
   }

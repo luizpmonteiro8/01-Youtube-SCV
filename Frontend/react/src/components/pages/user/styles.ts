@@ -20,7 +20,7 @@ export const Card = styled.div`
 
     display: flex;
     flex-direction: column;
-    justify-content: space-around;
+    justify-content: center;
 
     font-family: Arial, Helvetica, sans-serif;
 
@@ -34,6 +34,13 @@ export const Card = styled.div`
 
     label {
       font-size: 25px;
+    }
+
+    input {
+      font-size: 18px;
+      border-radius: 5px;
+      border: 2px solid #a2a2a2;
+      height: 35px;
     }
 
     p {
@@ -69,12 +76,5 @@ export const ButtonSubmit = styled.div`
     button {
       font-size: 26px !important;
     }
-  `}
-`;
-
-export const Option = styled.div`
-  ${() => css`
-    display: flex;
-    justify-content: end;
   `}
 `;

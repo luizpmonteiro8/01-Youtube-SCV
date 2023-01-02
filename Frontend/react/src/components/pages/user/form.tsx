@@ -3,25 +3,26 @@ import * as Yup from "yup";
 import { Button } from "components/common/button";
 import { Input } from "components/common/input";
 import { useFormik } from "formik";
-import { Credential } from "app";
+import { User } from "app";
 import { useRouter } from "next/router";
 
 type Props = {
-  onSubmit: (credential: Credential) => void;
+  onSubmit: (user: User) => void;
 };
 
 const initialValues = {
+  name: "",
   email: "",
   password: "",
 };
 
-export const LoginForm = ({ onSubmit }: Props) => {
+export const UserForm = ({ onSubmit }: Props) => {
   const router = useRouter();
-
-  const formik = useFormik<Credential>({
+  const formik = useFormik<User>({
     initialValues,
     onSubmit,
     validationSchema: Yup.object({
+      name: Yup.string().required("Campo obrigatório."),
       email: Yup.string()
         .email("Email inválido.")
         .required("Campo obrigatório."),
@@ -34,10 +35,21 @@ export const LoginForm = ({ onSubmit }: Props) => {
   return (
     <Styled.Card>
       <Styled.Title>
-        <h1>Login</h1>
+        <h1>Cadastro</h1>
       </Styled.Title>
       <Styled.Body>
         <form onSubmit={formik.handleSubmit}>
+          <Input
+            label="Nome"
+            id="name"
+            name="name"
+            placeholder={"Digite o nome"}
+            width="100%"
+            value={formik.values.name}
+            onChange={formik.handleChange}
+            error={formik.errors.name}
+          />
+          <br />
           <Input
             label="Email"
             id="email"
@@ -61,18 +73,19 @@ export const LoginForm = ({ onSubmit }: Props) => {
             error={formik.errors.password}
           />
 
-          <p onClick={() => alert("Contate o administrador")}>
-            Esqueceu a senha?
-          </p>
-
           <Styled.ButtonSubmit>
+            <Button
+              type="button"
+              style="blue"
+              onClick={() => {
+                router.push("/");
+              }}
+              title="Voltar"
+            />
             <Button type="submit" style="black" title="Enviar" />
           </Styled.ButtonSubmit>
         </form>
       </Styled.Body>
-      <Styled.Option>
-        <p onClick={() => router.push("/cadastro")}>Cadastrar uma nova conta</p>
-      </Styled.Option>
     </Styled.Card>
   );
 };

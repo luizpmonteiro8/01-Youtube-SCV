@@ -1,9 +1,14 @@
 import styled, { css } from "styled-components";
+import { ThemeType } from "theme";
+
+type Props = {
+  theme: ThemeType;
+};
 
 export const Wrapper = styled.div`
-  ${() => css`
+  ${({ theme }: Props) => css`
     .dropbtn {
-      background-color: #c4cbd7;
+      background-color: ${theme.menuBG};
       color: white;
       padding: 10px;
       font-size: 16px;
@@ -41,7 +46,7 @@ export const Wrapper = styled.div`
     }
 
     .dropdown:hover .dropbtn {
-      background-color: #bbbbbb;
+      background-color: ${theme.buttonMenu};
     }
   `}
 `;
