@@ -36,7 +36,7 @@ export const Input = ({
         disabled={disabled}
         style={error ? { width, border: "2px solid red" } : { width }}
         onChange={onChange}
-      ></input>
+      />
       <small>{error}</small>
     </Styled.Wrapper>
   );

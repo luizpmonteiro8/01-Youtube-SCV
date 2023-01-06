@@ -11,7 +11,7 @@ export const Wrapper = styled.div`
       background-color: ${theme.menuBG};
       color: white;
       padding: 10px;
-      font-size: 16px;
+      font-size: 20px;
       border: none;
       cursor: pointer;
     }

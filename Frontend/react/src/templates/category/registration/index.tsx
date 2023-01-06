@@ -2,17 +2,17 @@ import * as Styled from "./styles";
 
 import { Base } from "templates/base";
 import { useEffect } from "react";
-import { UnityRegistration } from "components/pages/products/unity/registration";
+import { CategoryRegistration } from "components/pages/products/category/registration";
 
-export const UnityRegistrationTp = () => {
+export const CategoryRegistrationTp = () => {
   useEffect(() => {
-    document.title = "SCV - Cadastro de unidades";
+    document.title = "SCV - Cadastro de categorias";
   }, []);
 
   return (
     <Base>
       <Styled.Wrapper>
-        <UnityRegistration />
+        <CategoryRegistration />
       </Styled.Wrapper>
     </Base>
   );

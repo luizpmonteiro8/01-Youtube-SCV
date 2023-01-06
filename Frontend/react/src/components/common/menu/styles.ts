@@ -21,6 +21,7 @@ export const Wrapper = styled.div`
     }
     p {
       font-family: "Montserrat", "Arial";
+      font-size: 30px;
     }
     i {
       cursor: pointer;

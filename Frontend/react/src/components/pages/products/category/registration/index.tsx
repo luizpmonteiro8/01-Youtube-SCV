@@ -1,31 +1,31 @@
 import * as Styled from "./styles";
-import { Unity, useUnityService } from "app";
+import { Category, useCategoryService } from "app";
 import { SnackBar } from "components/common/snackBar";
-import { UnityForm } from "./form";
+import { CategoryForm } from "./form";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 
-export const UnityRegistration = () => {
+export const CategoryRegistration = () => {
   const router = useRouter();
   const { id } = router.query;
 
-  const unityService = useUnityService();
+  const categoryService = useCategoryService();
 
   const [message, setMessage] = useState({ text: "" });
-  const [unity, setUnity] = useState<Unity>({ id: null, name: "" });
+  const [category, setCategory] = useState<Category>();
 
   useEffect(() => {
     if (id) {
-      unityService.loadUnityById(String(id)).then((res) => {
-        setUnity(res);
+      categoryService.loadCategoryById(String(id)).then((res) => {
+        setCategory(res);
       });
     }
   }, []);
 
-  const handleSubmit = (unity: Unity) => {
-    if (Number(unity.id) > 0) {
-      unityService
-        .update(unity)
+  const handleSubmit = (category: Category) => {
+    if (Number(category.id) > 0) {
+      categoryService
+        .update(category)
         .then((_) => {
           setMessage({ text: "Atualizado com sucesso." });
         })
@@ -35,9 +35,9 @@ export const UnityRegistration = () => {
             : setMessage({ text: "Ocorreu um erro." });
         });
     } else {
-      delete unity.id;
-      unityService
-        .create(unity)
+      delete category.id;
+      categoryService
+        .create(category)
         .then((_) => {
           setMessage({ text: "Salvo com sucesso." });
         })
@@ -51,10 +51,9 @@ export const UnityRegistration = () => {
 
   return (
     <Styled.Wrapper>
-      <UnityForm
+      <CategoryForm
         onSubmit={handleSubmit}
-        unity={unity}
-        setUnity={setUnity}
+        category={category}
         router={router}
       />
       <SnackBar message={message} />

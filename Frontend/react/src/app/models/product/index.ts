@@ -1,3 +1,4 @@
+import { Category } from "../category";
 import { Unity } from "../unity";
 
 export type Product = {
@@ -6,4 +7,6 @@ export type Product = {
   priceSale: number | string;
   unityId: number;
   unity?: Unity;
+  categoryId: number[];
+  categories?: Category[];
 };

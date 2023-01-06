@@ -42,6 +42,9 @@ export default NextAuth({
           })
           .catch((e) => {
             console.log("error auth", e);
+            if (e.message == "fetch failed") {
+              throw new Error("Ocorreu um erro inesperado.");
+            }
             throw new Error(e.message);
           });
       },

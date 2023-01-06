@@ -24,6 +24,13 @@ export const Menu = () => {
             </a>
             <a
               onClick={() => {
+                router.push("/cadastrar/categorias");
+              }}
+            >
+              Categorias
+            </a>
+            <a
+              onClick={() => {
                 router.push("/cadastrar/produtos");
               }}
             >
@@ -37,6 +44,13 @@ export const Menu = () => {
               }}
             >
               Unidades
+            </a>
+            <a
+              onClick={() => {
+                router.push("/listar/categorias");
+              }}
+            >
+              Categorias
             </a>
             <a
               onClick={() => {

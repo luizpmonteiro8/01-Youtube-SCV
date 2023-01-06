@@ -101,6 +101,8 @@ export const ProductListing = () => {
           <tr>
             <th>Id</th>
             <th>Nome</th>
+            <th>Unidade</th>
+            <th>Categoria</th>
             <th>Ações</th>
           </tr>
         </thead>
@@ -110,6 +112,16 @@ export const ProductListing = () => {
               <tr key={"productList" + index}>
                 <td>{item.id}</td>
                 <td>{item.name}</td>
+                <td>{item.unity?.name}</td>
+                <td>
+                  {item.categories?.map((category, index) => {
+                    if (item.categories?.length == index + 1) {
+                      return category.name;
+                    } else {
+                      return category.name + ",";
+                    }
+                  })}
+                </td>
                 <td>
                   <div style={{ display: "flex", flexWrap: "wrap" }}>
                     <a

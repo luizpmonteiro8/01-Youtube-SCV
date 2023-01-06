@@ -2,17 +2,17 @@ import * as Styled from "./styles";
 
 import { useEffect } from "react";
 import { Base } from "templates/base";
-import { ProductListing } from "components/pages/products/product/list";
+import { CategoryListing } from "components/pages/products/category/list";
 
-export const ProductListTp = () => {
+export const CategoryListTp = () => {
   useEffect(() => {
-    document.title = "SCV - Lista de produtos";
+    document.title = "SCV - Lista de categorias";
   }, []);
 
   return (
     <Base>
       <Styled.Wrapper>
-        <ProductListing />
+        <CategoryListing />
       </Styled.Wrapper>
     </Base>
   );

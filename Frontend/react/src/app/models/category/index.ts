@@ -1,4 +1,4 @@
-export type Unity = {
+export type Category = {
   id?: number;
   name: string;
 };

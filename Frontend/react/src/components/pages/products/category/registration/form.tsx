@@ -1,32 +1,34 @@
 import * as Styled from "./styles";
+import * as Yup from "yup";
 import { Button } from "components/common/button";
 import { Input } from "components/common/input";
 import { Dispatch, SetStateAction, useState } from "react";
-import { Unity } from "app";
+import { Category } from "app";
 import { Card } from "components/common/card";
 import { NextRouter } from "next/router";
+import { useFormik } from "formik";
 
 type Props = {
   router: NextRouter;
-  unity: Unity;
-  setUnity: Dispatch<SetStateAction<Unity>>;
-  onSubmit: (unity: Unity) => void;
+  category: Category | undefined;
+  onSubmit: (category: Category) => void;
 };
 
-export const UnityForm = ({ onSubmit, unity, setUnity, router }: Props) => {
-  const [touched, setTouched] = useState<boolean>(false);
+const initialValues = { id: undefined, name: "" };
+
+export const CategoryForm = ({ onSubmit, category, router }: Props) => {
+  const formik = useFormik<Category>({
+    initialValues: { ...initialValues, ...category },
+    enableReinitialize: true,
+    onSubmit,
+    validationSchema: Yup.object({
+      name: Yup.string().trim().required("Campo obrigatório."),
+    }),
+  });
 
   return (
-    <Card title="Cadastro de unidades">
-      <Styled.Form
-        onSubmit={(e) => {
-          e.preventDefault();
-          setTouched(true);
-          if (unity.name) {
-            onSubmit(unity);
-          }
-        }}
-      >
+    <Card title="Cadastro de categorias">
+      <Styled.Form onSubmit={formik.handleSubmit}>
         <Styled.FormBody>
           <Input
             label="Id"
@@ -34,7 +36,7 @@ export const UnityForm = ({ onSubmit, unity, setUnity, router }: Props) => {
             name="id"
             placeholder=""
             width="150px"
-            value={unity.id ? unity.id : ""}
+            value={formik.values.id}
             disabled={true}
           />
           <Input
@@ -43,12 +45,13 @@ export const UnityForm = ({ onSubmit, unity, setUnity, router }: Props) => {
             name="name"
             placeholder="Digite o nome"
             width="250px"
-            value={unity?.name}
-            onChange={(e) => {
-              unity.name = e.target.value;
-              setUnity({ ...unity });
-            }}
-            error={unity.name == "" && touched ? "Campo obrigatório" : ""}
+            value={formik.values.name}
+            onChange={formik.handleChange}
+            error={
+              formik.touched.name && formik.errors.name
+                ? formik.errors.name
+                : ""
+            }
           />
 
           <Styled.Row style={{ margin: "0 auto" }}>
@@ -57,9 +60,9 @@ export const UnityForm = ({ onSubmit, unity, setUnity, router }: Props) => {
               type="reset"
               style="red"
               onClick={() => {
-                setUnity({ id: null, name: "" });
-                setTouched(false);
-                router.push("/cadastrar/unidades");
+                router.push("/cadastrar/categorias");
+                formik.resetForm();
+                formik.setValues({ ...initialValues });
               }}
               title="Limpar"
             />
