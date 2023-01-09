@@ -2,7 +2,7 @@ import { Category } from "../category";
 import { Unity } from "../unity";
 
 export type Product = {
-  id?: number | null;
+  id?: number;
   name: string;
   priceSale: number | string;
   unityId: number;

@@ -49,7 +49,7 @@ export const AutoCompletePaginate = ({
   const inputRef = useRef<HTMLInputElement>(null);
 
   const [search, setSearch] = useState("");
-  const [valueText, setValue] = useState(null);
+  const [valueText, setValue] = useState("");
   const [size, setSize] = useState(10);
   const [page, setPage] = useState(0);
   const [orderValue, setOrder] = useState(order);
@@ -98,7 +98,10 @@ export const AutoCompletePaginate = ({
       setValue(item.name);
     } else {
       if (value == 0) return;
-      if (value == -1) return;
+      if (value == -1) {
+        setValue("");
+        return;
+      }
       if (value == undefined) return;
 
       loadId(value)

@@ -30,7 +30,7 @@ export class ProductRepository {
   async findById(id: bigint) {
     return await this.prisma.product.findFirstOrThrow({
       where: { id },
-      include: { unity: true },
+      include: { unity: true, categories: true },
     });
   }
 

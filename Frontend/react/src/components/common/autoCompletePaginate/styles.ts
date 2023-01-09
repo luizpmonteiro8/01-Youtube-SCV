@@ -31,7 +31,7 @@ export const Wrapper = styled.div`
 export const Row = styled.div`
   ${({ theme }) => css`
     display: flex;
-    align-items: flex-start;
+    align-items: center;
   `}
 `;
 

@@ -44,6 +44,8 @@ export const useProductService = () => {
     return response.data;
   };
   const update = async (product: Product) => {
+    console.log(product);
+
     const url = process.env.BASEURL + appUrl + "/" + product.id;
 
     const response: AxiosResponse<Product> = await httpClient.patch<Product>(

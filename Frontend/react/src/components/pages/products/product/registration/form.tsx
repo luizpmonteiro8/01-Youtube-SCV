@@ -1,4 +1,5 @@
 import * as Styled from "./styles";
+import * as Yup from "yup";
 import { Button } from "components/common/button";
 import { Input } from "components/common/input";
 import { Dispatch, SetStateAction, useState } from "react";
@@ -8,44 +9,60 @@ import { NextRouter } from "next/router";
 import { AutoCompletePaginate } from "components/common/autoCompletePaginate";
 import {
   convertBraziltoAmerican,
-  formatNumber3DecimalInScreen,
   formatNumberInScreen,
 } from "components/common/util/formatNumber";
+import { useFormik } from "formik";
 
 type Props = {
   router: NextRouter;
   product: Product;
-  setProduct: Dispatch<SetStateAction<Product>>;
   onSubmit: (product: Product) => void;
   unityService: any;
+  categoryService: any;
+};
+
+const initialValues = {
+  id: undefined,
+  name: "",
+  priceSale: "",
+  unityId: -1,
+  categoryId: [-1],
 };
 
 export const ProductForm = ({
   onSubmit,
   product,
-  setProduct,
   router,
   unityService,
+  categoryService,
 }: Props) => {
-  const [touched, setTouched] = useState<boolean>(false);
+  const formik = useFormik<Product>({
+    initialValues: { ...initialValues, ...product },
+    enableReinitialize: true,
+    onSubmit,
+    validationSchema: Yup.object({
+      name: Yup.string().trim().required("Campo obrigatório."),
+      //fazer um test >0
+      priceSale: Yup.string().trim().required("Campo obrigatório."),
+      unityId: Yup.number()
+        .positive("Campo obrigatório.")
+        .required("Campo obrigatório."),
+      categoryId: Yup.array().of(
+        Yup.number()
+          .positive("Campo obrigatório.")
+          .required("Campo obrigatório.")
+      ),
+    }),
+  });
+
+  console.log(formik.values);
+
   const [resetUnityAutoComplete, setUnityAutoComplete] =
     useState<boolean>(false);
 
   return (
     <Card title="Cadastro de produtos">
-      <Styled.Form
-        onSubmit={(e) => {
-          e.preventDefault();
-          setTouched(true);
-          if (
-            product.name != "" &&
-            Number(convertBraziltoAmerican(product.priceSale)) > 0 &&
-            product.unityId > 0
-          ) {
-            onSubmit(product);
-          }
-        }}
-      >
+      <Styled.Form onSubmit={formik.handleSubmit}>
         <Styled.FormBody>
           <Input
             label="Id"
@@ -53,7 +70,7 @@ export const ProductForm = ({
             name="id"
             placeholder=""
             width="150px"
-            value={product.id ? product.id : ""}
+            value={formik.values.id}
             disabled={true}
           />
           <Input
@@ -62,30 +79,33 @@ export const ProductForm = ({
             name="name"
             placeholder="Digite o nome"
             width="250px"
-            value={product?.name}
-            onChange={(e) => {
-              product.name = e.target.value;
-              setProduct({ ...product });
-            }}
-            error={product.name == "" && touched ? "Campo obrigatório" : ""}
+            value={formik.values.name}
+            onChange={formik.handleChange}
+            error={
+              formik.touched.name && formik.errors.name
+                ? formik.errors.name
+                : ""
+            }
           />
-
           <Input
             label="Preço de venda"
             id="priceSale"
             name="priceSale"
             placeholder="Digite o preço de venda"
             width="250px"
-            value={product?.priceSale}
+            value={formik.values.priceSale}
             onChange={(e) => {
-              product.priceSale = formatNumberInScreen(e.target.value);
-              setProduct({ ...product });
+              formik.setFieldValue(
+                "priceSale",
+                formatNumberInScreen(e.target.value)
+              );
             }}
             error={
-              product.priceSale == "" && touched ? "Campo obrigatório" : ""
+              formik.touched.priceSale && formik.errors.priceSale
+                ? formik.errors.priceSale
+                : ""
             }
           />
-
           <AutoCompletePaginate
             loadFunction={unityService.loadPageUnity}
             loadId={unityService.loadUnityById}
@@ -94,37 +114,91 @@ export const ProductForm = ({
             label="Selecione a unidade"
             sortField="id"
             reset={resetUnityAutoComplete}
-            value={product.unityId}
+            value={formik.values.unityId}
             onClick={(e) => {
               if (e) {
-                product.unity = e;
-                product.unityId = e.id;
+                formik.setFieldValue("unityId", e.id);
               } else {
-                product.unity = undefined;
-                product.unityId = -1;
+                formik.setFieldValue("unityId", -1);
               }
             }}
-            error={product.unityId == -1 && touched ? "Campo obrigatório" : ""}
+            error={
+              formik.touched.unityId && formik.errors.unityId
+                ? formik.errors.unityId
+                : ""
+            }
             marginRight="15px"
           />
+          <Styled.CategoryInput>
+            <label>Categorias:</label>
 
+            <button
+              type="button"
+              disabled={formik.values.categoryId[0] == -1}
+              onClick={() => {
+                formik.values.categoryId.splice(0, 0, -1);
+                formik.setFieldValue("categoryId", formik.values.categoryId);
+              }}
+            >
+              +
+            </button>
+          </Styled.CategoryInput>
+          {formik.values.categoryId.map((item, index) => {
+            return (
+              <Styled.CategoryInput key={"category" + index}>
+                <AutoCompletePaginate
+                  loadFunction={categoryService.loadPageCategory}
+                  loadId={categoryService.loadCategoryById}
+                  id={"categoryId" + index}
+                  name={"categoryId" + index}
+                  label="Selecione a categoria"
+                  sortField="name"
+                  reset={resetUnityAutoComplete}
+                  value={item}
+                  onClick={(e) => {
+                    if (e) {
+                      formik.values.categoryId[index] = e.id;
+                      formik.setFieldValue(
+                        "categoryId",
+                        formik.values.categoryId
+                      );
+                    }
+                  }}
+                  error={
+                    formik.touched.categoryId &&
+                    formik.errors.categoryId &&
+                    formik.errors.categoryId[index]
+                      ? formik.errors.categoryId[index]
+                      : ""
+                  }
+                  marginRight="15px"
+                />
+                {index != 0 && (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      formik.values.categoryId.splice(index, 1);
+                      formik.setFieldValue(
+                        "categoryId",
+                        formik.values.categoryId
+                      );
+                    }}
+                  >
+                    -
+                  </button>
+                )}
+              </Styled.CategoryInput>
+            );
+          })}
           <Styled.Row style={{ margin: "0 auto" }}>
             <Button type="submit" style="black" title="Enviar" />
             <Button
               type="reset"
               style="red"
               onClick={async () => {
-                setProduct({
-                  id: null,
-                  name: "",
-                  priceSale: "",
-                  unityId: -1,
-                  unity: undefined,
-                });
-                await setUnityAutoComplete(true);
-                setUnityAutoComplete(false);
-                setTouched(false);
                 router.push("/cadastrar/produtos");
+                formik.resetForm();
+                formik.setValues({ ...initialValues, categoryId: [-1] });
               }}
               title="Limpar"
             />

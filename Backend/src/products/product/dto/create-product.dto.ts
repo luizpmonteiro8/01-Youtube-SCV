@@ -26,6 +26,7 @@ export class CreateProductDto {
 
   @ApiProperty({
     description: 'Id da categoria',
+    type: [Number],
   })
   @IsNotEmpty({ message: 'A categoria deve ser um conjunto de número.' })
   @ArrayNotEmpty({ message: 'A categoria deve ser um conjunto de número.' })

@@ -102,7 +102,7 @@ export const ProductListing = () => {
             <th>Id</th>
             <th>Nome</th>
             <th>Unidade</th>
-            <th>Categoria</th>
+            <th>Categorias</th>
             <th>Ações</th>
           </tr>
         </thead>

@@ -21,3 +21,16 @@ export const FormBody = styled.div`
     flex-direction: column;
   `}
 `;
+
+export const CategoryInput = styled.div`
+  ${() => css`
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+    button {
+      height: 30px;
+    }
+  `}
+`;
