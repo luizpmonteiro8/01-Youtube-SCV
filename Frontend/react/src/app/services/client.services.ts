@@ -1,16 +1,16 @@
-import { Product, PaginationType } from "app";
+import { Client, PaginationType } from "app";
 import { httpClient } from "app/http";
 import { AxiosResponse } from "axios";
 
 type ResultType = {
-  results: Product[];
+  results: Client[];
   pagination: PaginationType;
 };
 
-const appUrl = "/product";
+const appUrl = "/client";
 
-export const useProductService = () => {
-  const loadPageProduct = async (
+export const useClientService = () => {
+  const loadPageClient = async (
     page = 0,
     size = 25,
     search = "",
@@ -26,29 +26,29 @@ export const useProductService = () => {
     return response.data;
   };
 
-  const loadProductById = async (id: number | string) => {
+  const loadClientById = async (id: number | string) => {
     const url = process.env.BASEURL + appUrl + "/" + id;
-    const response: AxiosResponse<Product> = await httpClient.get(url);
+    const response: AxiosResponse<Client> = await httpClient.get(url);
 
     return response.data;
   };
 
-  const create = async (product: Product) => {
+  const create = async (client: Client) => {
     const url = process.env.BASEURL + appUrl;
 
-    const response: AxiosResponse<Product> = await httpClient.post<Product>(
+    const response: AxiosResponse<Client> = await httpClient.post<Client>(
       url,
-      product
+      client
     );
 
     return response.data;
   };
-  const update = async (product: Product) => {
-    const url = process.env.BASEURL + appUrl + "/" + product.id;
+  const update = async (client: Client) => {
+    const url = process.env.BASEURL + appUrl + "/" + client.id;
 
-    const response: AxiosResponse<Product> = await httpClient.patch<Product>(
+    const response: AxiosResponse<Client> = await httpClient.patch<Client>(
       url,
-      product
+      client
     );
 
     return response.data;
@@ -56,7 +56,7 @@ export const useProductService = () => {
   const remove = async (id: number) => {
     const url = process.env.BASEURL + appUrl + "/" + id;
 
-    const response: AxiosResponse<Product> = await httpClient.delete<Product>(
+    const response: AxiosResponse<Client> = await httpClient.delete<Client>(
       url
     );
 
@@ -64,8 +64,8 @@ export const useProductService = () => {
   };
 
   return {
-    loadPageProduct,
-    loadProductById,
+    loadPageClient,
+    loadClientById,
     create,
     update,
     remove,

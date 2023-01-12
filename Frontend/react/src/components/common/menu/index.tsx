@@ -36,6 +36,13 @@ export const Menu = () => {
             >
               Produtos
             </a>
+            <a
+              onClick={() => {
+                router.push("/cadastrar/clientes");
+              }}
+            >
+              Clientes
+            </a>
           </DropMenu>
           <DropMenu title={"Listar"}>
             <a
@@ -58,6 +65,13 @@ export const Menu = () => {
               }}
             >
               Produtos
+            </a>
+            <a
+              onClick={() => {
+                router.push("/listar/clientes");
+              }}
+            >
+              Clientes
             </a>
           </DropMenu>
         </Styled.DropDown>

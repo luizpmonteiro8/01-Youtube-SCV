@@ -30,6 +30,7 @@ export class ClientRepository {
   async findById(id: bigint) {
     return await this.prisma.client.findFirstOrThrow({
       where: { id },
+	  include: { address: true },
     });
   }
 

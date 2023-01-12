@@ -2,7 +2,7 @@ import * as Styled from "./styles";
 import * as Yup from "yup";
 import { Button } from "components/common/button";
 import { Input } from "components/common/input";
-import { Dispatch, SetStateAction, useState } from "react";
+import { useState } from "react";
 import { Product } from "app";
 import { Card } from "components/common/card";
 import { NextRouter } from "next/router";
@@ -54,8 +54,6 @@ export const ProductForm = ({
       ),
     }),
   });
-
-  console.log(formik.values);
 
   const [resetUnityAutoComplete, setUnityAutoComplete] =
     useState<boolean>(false);

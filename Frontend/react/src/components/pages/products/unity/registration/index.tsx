@@ -20,7 +20,7 @@ export const UnityRegistration = () => {
         setUnity(res);
       });
     }
-  }, []);
+  }, [id]);
 
   const handleSubmit = (unity: Unity) => {
     if (Number(unity.id) > 0) {

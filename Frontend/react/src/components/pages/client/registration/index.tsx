@@ -1,31 +1,43 @@
 import * as Styled from "./styles";
-import { Category, useCategoryService } from "app";
+import {
+  Client,
+  useClientService,
+  useCountryIbgeService,
+  useViaCepService,
+} from "app";
 import { SnackBar } from "components/common/snackBar";
-import { CategoryForm } from "./form";
+import { ClientForm } from "./form";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 
-export const CategoryRegistration = () => {
+export const ClientRegistration = () => {
   const router = useRouter();
   const { id } = router.query;
 
-  const categoryService = useCategoryService();
+  const clientService = useClientService();
+  const countryService = useCountryIbgeService();
+  const cepService = useViaCepService();
 
   const [message, setMessage] = useState({ text: "" });
-  const [category, setCategory] = useState<Category>();
+  const [client, setClient] = useState<Client>();
+  const [countryList, setCountryList] = useState<string[]>([]);
 
   useEffect(() => {
     if (id) {
-      categoryService.loadCategoryById(String(id)).then((res) => {
-        setCategory(res);
+      clientService.loadClientById(String(id)).then((res) => {
+        setClient(res);
       });
     }
+    countryService.getCountry().then((resp) => setCountryList(resp));
   }, [id]);
 
-  const handleSubmit = (category: Category) => {
-    if (Number(category.id) > 0) {
-      categoryService
-        .update(category)
+  const handleSubmit = (client: Client) => {
+    if (Number(client.id) > 0) {
+      delete client!.address!.id;
+      delete client!.address!.clientId;
+      delete client!.address!.sellerId;
+      clientService
+        .update(client)
         .then((_) => {
           setMessage({ text: "Atualizado com sucesso." });
         })
@@ -35,9 +47,9 @@ export const CategoryRegistration = () => {
             : setMessage({ text: "Ocorreu um erro." });
         });
     } else {
-      delete category.id;
-      categoryService
-        .create(category)
+      delete client.id;
+      clientService
+        .create(client)
         .then((_) => {
           setMessage({ text: "Salvo com sucesso." });
         })
@@ -51,10 +63,12 @@ export const CategoryRegistration = () => {
 
   return (
     <Styled.Wrapper>
-      <CategoryForm
+      <ClientForm
         onSubmit={handleSubmit}
-        category={category}
+        client={client}
         router={router}
+        countryList={countryList}
+        cepService={cepService}
       />
       <SnackBar message={message} />
     </Styled.Wrapper>
