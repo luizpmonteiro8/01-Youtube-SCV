@@ -1,45 +1,33 @@
 import * as Styled from "./styles";
-import {
-  Client,
-  useClientService,
-  useCountryIbgeService,
-  useViaCepService,
-} from "app";
+import { Sale, useClientService, useProductService, useSaleService } from "app";
 import { SnackBar } from "components/common/snackBar";
-import { ClientForm } from "./form";
+import { SaleForm } from "./form";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 
-export const ClientRegistration = () => {
+export const SaleRegistration = () => {
   const router = useRouter();
   const { id } = router.query;
 
+  const saleService = useSaleService();
   const clientService = useClientService();
-  const countryService = useCountryIbgeService();
-  const cepService = useViaCepService();
+  const productService = useProductService();
 
   const [message, setMessage] = useState({ text: "" });
-  const [client, setClient] = useState<Client>();
-  const [countryList, setCountryList] = useState<string[]>([]);
+  const [sale, setSale] = useState<Sale>();
 
   useEffect(() => {
     if (id) {
-      clientService.loadClientById(String(id)).then((res) => {
-        setClient(res);
+      saleService.loadSaleById(String(id)).then((res) => {
+        setSale(res);
       });
-    }
-    if (countryList.length == 0) {
-      countryService.getCountry().then((resp) => setCountryList(resp));
     }
   }, [id]);
 
-  const handleSubmit = (client: Client) => {
-    if (Number(client.id) > 0) {
-      delete client!.address!.id;
-      delete client!.address!.clientId;
-      delete client!.address!.sellerId;
-      clientService
-        .update(client)
+  const handleSubmit = (sale: Sale) => {
+    if (Number(sale.id) > 0) {
+      saleService
+        .update(sale)
         .then((_) => {
           setMessage({ text: "Atualizado com sucesso." });
         })
@@ -49,9 +37,9 @@ export const ClientRegistration = () => {
             : setMessage({ text: "Ocorreu um erro." });
         });
     } else {
-      delete client.id;
-      clientService
-        .create(client)
+      delete sale.id;
+      saleService
+        .create(sale)
         .then((_) => {
           setMessage({ text: "Salvo com sucesso." });
         })
@@ -65,12 +53,12 @@ export const ClientRegistration = () => {
 
   return (
     <Styled.Wrapper>
-      <ClientForm
+      <SaleForm
         onSubmit={handleSubmit}
-        client={client}
+        sale={sale}
         router={router}
-        countryList={countryList}
-        cepService={cepService}
+        clientService={clientService}
+        productService={productService}
       />
       <SnackBar message={message} />
     </Styled.Wrapper>

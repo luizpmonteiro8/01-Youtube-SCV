@@ -67,7 +67,7 @@ export class SaleController {
     return await this.saleService.paginate(
       request.query.hasOwnProperty('page') ? request.query.page : 0,
       request.query.hasOwnProperty('size') ? request.query.size : 10,
-      request.query.hasOwnProperty('sort') ? request.query.sort : 'name',
+      request.query.hasOwnProperty('sort') ? request.query.sort : 'id',
       request.query.hasOwnProperty('order') ? request.query.order : 'asc',
       request.query.hasOwnProperty('search') ? request.query.search : '',
     );

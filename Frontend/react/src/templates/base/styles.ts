@@ -3,7 +3,8 @@ import styled, { css } from "styled-components";
 export const Wrapper = styled.div`
   ${() => css`
     h1,
-    h3 {
+    h3,
+    h5 {
       margin: 0;
       padding: 0;
     }

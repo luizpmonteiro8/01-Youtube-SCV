@@ -17,7 +17,12 @@ type Props = {
   onSubmit: (client: Client) => void;
 };
 
-const initialValues = { id: undefined, name: "", cpf: "", address: undefined };
+const initialValues = {
+  id: undefined,
+  name: "",
+  cpf: "",
+  address: undefined,
+};
 
 export const ClientForm = ({
   onSubmit,
@@ -32,10 +37,17 @@ export const ClientForm = ({
     onSubmit,
     validationSchema: Yup.object({
       name: Yup.string().trim().required("Campo obrigatório."),
+      cpf: Yup.string().trim().required("Campo obrigatório."),
+      address: Yup.object().shape({
+        zipCode: Yup.string().trim().required("Campo obrigatório."),
+        street: Yup.string().trim().required("Campo obrigatório."),
+        number: Yup.string().trim().required("Campo obrigatório."),
+        district: Yup.string().trim().required("Campo obrigatório."),
+        state: Yup.string().trim().required("Campo obrigatório."),
+        country: Yup.string().trim().required("Campo obrigatório."),
+      }),
     }),
   });
-
-  console.log(formik.values);
 
   return (
     <Card title="Cadastro de clientes">
@@ -126,7 +138,13 @@ export const ClientForm = ({
               }
             }}
             error={
-              formik.touched.cpf && formik.errors.cpf ? formik.errors.cpf : ""
+              formik.touched.address &&
+              formik.errors.address &&
+              //@ts-ignore
+              formik.errors.address["zipCode"]
+                ? //@ts-ignore
+                  formik.errors.address["zipCode"]
+                : ""
             }
           />
 
@@ -138,6 +156,15 @@ export const ClientForm = ({
             width="250px"
             value={formik.values.address?.street}
             disabled={true}
+            error={
+              formik.touched.address &&
+              formik.errors.address &&
+              //@ts-ignore
+              formik.errors.address["street"]
+                ? //@ts-ignore
+                  formik.errors.address["street"]
+                : ""
+            }
           />
           <Input
             label="Número"
@@ -152,6 +179,15 @@ export const ClientForm = ({
                 number: e.target.value,
               });
             }}
+            error={
+              formik.touched.address &&
+              formik.errors.address &&
+              //@ts-ignore
+              formik.errors.address["number"]
+                ? //@ts-ignore
+                  formik.errors.address["number"]
+                : ""
+            }
           />
           <Input
             label="Complemento"
@@ -175,6 +211,15 @@ export const ClientForm = ({
             width="250px"
             value={formik.values.address?.district}
             disabled={true}
+            error={
+              formik.touched.address &&
+              formik.errors.address &&
+              //@ts-ignore
+              formik.errors.address["district"]
+                ? //@ts-ignore
+                  formik.errors.address["district"]
+                : ""
+            }
           />
 
           <Input
@@ -185,6 +230,15 @@ export const ClientForm = ({
             width="250px"
             value={formik.values.address?.state}
             disabled={true}
+            error={
+              formik.touched.address &&
+              formik.errors.address &&
+              //@ts-ignore
+              formik.errors.address["state"]
+                ? //@ts-ignore
+                  formik.errors.address["state"]
+                : ""
+            }
           />
 
           <Styled.Row style={{ margin: "0 auto" }}>

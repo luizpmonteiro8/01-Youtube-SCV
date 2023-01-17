@@ -5,3 +5,4 @@ export { useCategoryService } from "./category.services";
 export { useClientService } from "./client.services";
 export { useCountryIbgeService } from "./countryIbge.services";
 export { useViaCepService } from "./viaCep.services";
+export { useSaleService } from "./sale.services";
