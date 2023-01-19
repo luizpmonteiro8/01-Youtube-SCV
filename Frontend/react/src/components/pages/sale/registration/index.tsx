@@ -19,13 +19,34 @@ export const SaleRegistration = () => {
   useEffect(() => {
     if (id) {
       saleService.loadSaleById(String(id)).then((res) => {
+        res.saleItem = res.saleItem.map((item) => {
+          item.quantity = Number(item.quantity);
+          return item;
+        });
         setSale(res);
       });
     }
   }, [id]);
 
-  const handleSubmit = (sale: Sale) => {
+  const handleSubmit = (saleReceived: Sale) => {
+    const sale: Sale = JSON.parse(JSON.stringify(saleReceived));
+
+    sale.clientId = Number(sale.clientId);
+
+    sale.saleItem = sale.saleItem.map((item) => {
+      item.productId = Number(item.productId);
+      delete item.product;
+      delete item.price;
+      delete item.id;
+      delete item.saleId;
+      return item;
+    });
+
     if (Number(sale.id) > 0) {
+      delete sale.date;
+      delete sale.clientId;
+      delete sale.sellerId;
+
       saleService
         .update(sale)
         .then((_) => {

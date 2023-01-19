@@ -47,10 +47,12 @@ export const SaleForm = ({
     onSubmit,
     validationSchema: Yup.object({
       clientId: Yup.string().trim().required("Campo obrigatório."),
+      saleItem: Yup.array().min(
+        1,
+        "Deve ser adicionando pelo menos 1 produto."
+      ),
     }),
   });
-
-  console.log(formik.values);
 
   const totalItem = (item: SaleItem) => {
     return (
@@ -67,11 +69,22 @@ export const SaleForm = ({
     return total;
   };
 
+  const removeItem = async (index: number) => {
+    formik.values.saleItem.splice(formik.values.saleItem.length - index - 1, 1);
+    formik.setFieldValue("saleItem", formik.values.saleItem);
+    if (sale) {
+      sale.saleItem = formik.values.saleItem;
+    }
+  };
+
   return (
-    <Styled.WrapperForm>
+    <Styled.WrapperForm onSubmit={formik.handleSubmit}>
       <Styled.RowSpaceBetween>
         <h3>Cadastro de venda</h3>
-        <h5>Total:{convertAmericanFromBrazil(totalSale())}</h5>
+        <div>
+          <Button title="Salvar" type="submit" style="green" />
+          <h5>Total:{convertAmericanFromBrazil(totalSale())}</h5>
+        </div>
       </Styled.RowSpaceBetween>
       <AutoCompletePaginate
         loadFunction={clientService.loadPageClient}
@@ -143,12 +156,12 @@ export const SaleForm = ({
               setProduct(undefined);
             }
           }}
+          marginRight="15px"
           error={
-            formik.touched.clientId && formik.errors.clientId
-              ? formik.errors.clientId
+            formik.touched.saleItem && formik.errors.saleItem
+              ? (formik.errors.saleItem as string)
               : ""
           }
-          marginRight="15px"
         />
 
         <Input
@@ -174,6 +187,9 @@ export const SaleForm = ({
               };
               formik.values.saleItem.push(saleItem);
               formik.setFieldValue("saleItem", formik.values.saleItem);
+              if (sale) {
+                sale.saleItem = formik.values.saleItem;
+              }
             }
           }}
         />
@@ -182,8 +198,10 @@ export const SaleForm = ({
       <Styled.Table>
         <thead>
           <tr>
+            <th>Id</th>
             <th>Produto</th>
             <th>Quantidade</th>
+            <th>Valor unitário</th>
             <th>Total</th>
             <th>Ações</th>
           </tr>
@@ -195,14 +213,20 @@ export const SaleForm = ({
             .map((item, index) => {
               return (
                 <tr key={"saleItem" + index}>
+                  <td>{formik.values.saleItem.length - index}</td>
                   <td>{item.product!.name}</td>
                   <td>{item.quantity}</td>
+                  <td>
+                    {"R$ " + convertAmericanFromBrazil(item.product!.priceSale)}
+                  </td>
                   <td>{totalItem(item)}</td>
                   <td>
                     <div style={{ display: "flex", flexWrap: "wrap" }}>
                       <a
                         onClick={() => {
-                          router.push("/cadastrar/vendas?id=" + item.id);
+                          setQuantity(item.quantity);
+                          setProduct(item.product);
+                          removeItem(index);
                         }}
                         style={{ padding: "15px", marginRight: "15px" }}
                       >
@@ -210,7 +234,7 @@ export const SaleForm = ({
                       </a>
                       <a
                         onClick={() => {
-                          window.scrollTo(0, 0);
+                          removeItem(index);
                         }}
                         style={{ padding: "15px" }}
                       >

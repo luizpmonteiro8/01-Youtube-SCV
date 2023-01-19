@@ -117,6 +117,7 @@ export const SaleListing = () => {
             <th>Cliente</th>
             <th>Data</th>
             <th>Total</th>
+            <th>Entregue</th>
             <th>Ações</th>
           </tr>
         </thead>
@@ -129,6 +130,8 @@ export const SaleListing = () => {
                 <td>{item.client?.name}</td>
                 <td>{formatDate(new Date(item.date!))}</td>
                 <td>{totalSale(item.saleItem)}</td>
+                <td>{item.delivered ? "Sim" : "Não"}</td>
+
                 <td>
                   <div style={{ display: "flex", flexWrap: "wrap" }}>
                     <a

@@ -9,7 +9,7 @@ export const Wrapper = styled.div`
   ${() => css``}
 `;
 
-export const WrapperForm = styled.div`
+export const WrapperForm = styled.form`
   ${() => css`
     padding: 15px;
   `}

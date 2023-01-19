@@ -32,6 +32,9 @@ export class SaleRepository {
   async findById(id: bigint) {
     return await this.prisma.sale.findFirstOrThrow({
       where: { id },
+	   include: {
+        saleItem: { include: { product: true } },        
+      },
     });
   }
 

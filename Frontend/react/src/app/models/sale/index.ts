@@ -7,7 +7,7 @@ export type Sale = {
   date?: string;
   toDelivery: boolean;
   delivered: boolean;
-  clientId: string;
+  clientId?: string | number;
   sellerId?: string;
   saleItem: SaleItem[];
   seller?: Seller;
@@ -18,6 +18,7 @@ export type SaleItem = {
   id?: number;
   price?: number;
   quantity: number;
-  productId: string;
+  productId: string | number;
   product?: Product;
+  saleId?: string;
 };

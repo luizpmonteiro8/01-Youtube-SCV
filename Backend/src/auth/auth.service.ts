@@ -25,7 +25,6 @@ export class AuthService {
 
   private jwtExtractor(headers) {
     const tokenBearer: string = headers.authorization;
-    console.log('authorization', headers.authorization);
 
     const [, token] = tokenBearer.split(' ');
     return token;
@@ -34,12 +33,10 @@ export class AuthService {
   async getSellerIdFromJwt(req) {
     const token = this.jwtExtractor(req.headers);
     const claims = verify(token, process.env.JWT_SECRET);
-    console.log('claims', claims);
 
     const sellerId = await this.loginRepository.findSellerIdByUserId(
       claims['userId'],
     );
-    console.log('sellerId', sellerId);
 
     return sellerId;
   }

@@ -79,7 +79,7 @@ export const AutoCompletePaginate = ({
 
   const resetText = () => {
     if (reset) {
-      setValue(null);
+      setValue("");
       setSearch("");
     }
   };
@@ -202,7 +202,7 @@ export const AutoCompletePaginate = ({
                 listInnerRef.current.scrollTop = 0;
               }
 
-              setValue(null);
+              setValue("");
               onClick(null);
               setSearch("");
               await loadFunction(0, size, "", orderValue, fieldValue).then(
