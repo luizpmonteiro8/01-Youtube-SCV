@@ -18,7 +18,7 @@ export const Login = () => {
     });
 
     if (resp!.ok) {
-      router.push("/listar/unidades");
+      router.push("/home");
     } else {
       setMessage({ text: resp?.error! });
     }

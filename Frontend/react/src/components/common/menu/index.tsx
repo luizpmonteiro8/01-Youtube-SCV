@@ -10,7 +10,14 @@ export const Menu = () => {
   return (
     <Styled.Wrapper>
       <div>
-        <p>SCV</p>
+        <p
+          style={{ cursor: "pointer" }}
+          onClick={() => {
+            router.push("/home");
+          }}
+        >
+          SCV
+        </p>
       </div>
       <Styled.Right>
         <Styled.DropDown>
