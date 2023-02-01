@@ -64,8 +64,6 @@ export const formatNumber3DecimalInScreen = (valor: string | number) => {
   }
 
   if (valor.length == 4) {
-    console.log(valor);
-
     valor = valor.replace(/([0-9]{3})$/g, '0,$1');
     valor = valor.replace(',', '');
   }

@@ -2,17 +2,17 @@
 import React, {useEffect, useState} from 'react';
 import type {Node} from 'react';
 import {SafeAreaView, StyleSheet, TextInput, View} from 'react-native';
-import Toast from 'react-native-toast-message';
-import ModalComponent from '../../components/common/modal';
 import Menu from '../../components/menu';
-import {FlatListProduct} from './flat-list';
-import {useProductService} from '../../app/services/product.services';
+import {useCategoryService} from '../../app/services/category.services';
+import Toast from 'react-native-toast-message';
+import {FlatListCategory} from './flat-list';
+import ModalComponent from '../../components/common/modal';
 
-const ProductListScreen: () => Node = ({navigation}) => {
-  const productService = useProductService();
-  const [productList, setProductList] = useState([]);
+const CategoryListScreen: () => Node = ({navigation}) => {
+  const categoryService = useCategoryService();
+  const [categoryList, setCategoryList] = useState([]);
   const [modalRemove, setModalRemove] = useState(false);
-  const [productRemove, setProductRemove] = useState({});
+  const [categoryRemove, setCategoryRemove] = useState({});
 
   const [page, setPage] = useState(0);
   const [size, setSize] = useState(10);
@@ -21,10 +21,10 @@ const ProductListScreen: () => Node = ({navigation}) => {
   const [sort, setSort] = useState('id');
 
   useEffect(() => {
-    productService
-      .loadPageProduct(page, size, search, order, sort)
+    categoryService
+      .loadPageCategory(page, size, search, order, sort)
       .then(res => {
-        setProductList(res.results);
+        setCategoryList(res.results);
       })
       .catch(error => {
         if (error.response.data.message) {
@@ -46,10 +46,10 @@ const ProductListScreen: () => Node = ({navigation}) => {
   const loadMoreItemPage = () => {
     setPage(page + 1);
 
-    productService
-      .loadPageProduct(page + 1, size, search, order, sort)
+    categoryService
+      .loadPageCategory(page + 1, size, search, order, sort)
       .then(res => {
-        setProductList(productList.concat(res.results));
+        setCategoryList(categoryList.concat(res.results));
       })
       .catch(err => {});
   };
@@ -58,10 +58,10 @@ const ProductListScreen: () => Node = ({navigation}) => {
     setPage(0);
     setSearch(searchNow);
 
-    productService
-      .loadPageProduct(0, size, searchNow, order, sort)
+    categoryService
+      .loadPageCategory(0, size, searchNow, order, sort)
       .then(res => {
-        setProductList(res.results);
+        setCategoryList(res.results);
       })
       .catch(err => {});
   };
@@ -80,32 +80,32 @@ const ProductListScreen: () => Node = ({navigation}) => {
             }}
             placeholder="Buscar"
           />
-          <FlatListProduct
-            productList={productList}
+          <FlatListCategory
+            categoryList={categoryList}
             loadMoreItemPage={loadMoreItemPage}
             setModalRemoveVisible={setModalRemove}
-            setProductRemove={setProductRemove}
+            setCategoryRemove={setCategoryRemove}
             navigation={navigation}
           />
         </View>
       </View>
       <ModalComponent
-        title={'Remover produto'}
-        message={`Deseja remover produto: ${productRemove.name} com id: ${productRemove.id}?`}
+        title={'Remover categoria'}
+        message={`Deseja remover categoria: ${categoryRemove.name} com id: ${categoryRemove.id}?`}
         modalVisible={modalRemove}
         onConfirm={() => {
-          productService
-            .remove(productRemove.id)
+          categoryService
+            .remove(categoryRemove.id)
             .then(_ => {
-              const newList = productList.filter(
-                item => item.id != productRemove.id,
+              const newList = categoryList.filter(
+                item => item.id != categoryRemove.id,
               );
-              setProductList(newList);
+              setCategoryList(newList);
               setModalRemove(false);
               Toast.show({
                 type: 'success',
                 text1: 'Removido',
-                text2: `Produto:${productRemove.name} com id: ${productRemove.id}, removido com sucesso. `,
+                text2: `Categoria:${categoryRemove.name} com id: ${categoryRemove.id}, removido com sucesso. `,
               });
             })
             .catch(error => {
@@ -144,4 +144,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ProductListScreen;
+export default CategoryListScreen;

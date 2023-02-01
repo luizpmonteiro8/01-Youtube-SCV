@@ -9,6 +9,13 @@ import UnityRegistrationScreen from './unity/unityRegistration';
 import ProductListScreen from './product/productList';
 import ProductRegistrationScreen from './product/productRegistration';
 import UnityListSelect from './product/select/unityList';
+import LoginScreen from './login/login';
+import UserRegistrationScreen from './user/userRegistration';
+import CategoryListScreen from './category/categoryList';
+import CategoryRegistrationScreen from './category/categoryRegistration';
+import CategoryListSelect from './product/select/categoryList';
+import ClientRegistrationScreen from './client/clientRegistration';
+import ClientListScreen from './client/clientList';
 
 const Stack = createNativeStackNavigator();
 
@@ -57,10 +64,25 @@ const App: () => Node = () => {
   return (
     <>
       <NavigationContainer>
-        <Stack.Navigator>
+        <Stack.Navigator initialRouteName="Login">
+          <Stack.Screen
+            name="Login"
+            component={LoginScreen}
+            options={{headerShown: false}}
+          />
+          <Stack.Screen
+            name="UserRegistration"
+            component={UserRegistrationScreen}
+            options={{headerShown: false}}
+          />
           <Stack.Screen
             name="UnityList"
             component={UnityListScreen}
+            options={{headerShown: false}}
+          />
+          <Stack.Screen
+            name="CategoryList"
+            component={CategoryListScreen}
             options={{headerShown: false}}
           />
           <Stack.Screen
@@ -69,8 +91,18 @@ const App: () => Node = () => {
             options={{headerShown: false}}
           />
           <Stack.Screen
+            name="ClientList"
+            component={ClientListScreen}
+            options={{headerShown: false}}
+          />
+          <Stack.Screen
             name="UnityRegistration"
             component={UnityRegistrationScreen}
+            options={{headerShown: false}}
+          />
+          <Stack.Screen
+            name="CategoryRegistration"
+            component={CategoryRegistrationScreen}
             options={{headerShown: false}}
           />
           <Stack.Screen
@@ -79,8 +111,18 @@ const App: () => Node = () => {
             options={{headerShown: false}}
           />
           <Stack.Screen
+            name="ClientRegistration"
+            component={ClientRegistrationScreen}
+            options={{headerShown: false}}
+          />
+          <Stack.Screen
             name="UnityListSelect"
             component={UnityListSelect}
+            options={{headerShown: false, presentation: 'modal'}}
+          />
+          <Stack.Screen
+            name="CategoryListSelect"
+            component={CategoryListSelect}
             options={{headerShown: false, presentation: 'modal'}}
           />
         </Stack.Navigator>

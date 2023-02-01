@@ -2,7 +2,6 @@ import React, {useState} from 'react';
 import type {Node} from 'react';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {
-  Alert,
   Modal,
   SafeAreaView,
   ScrollView,
@@ -11,8 +10,8 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import Collapse from './common/collapse';
 import MenuCollapse from './menu-collapse';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 interface ModalProps {
   modalVisible: boolean;
@@ -70,6 +69,15 @@ const ModalView = ({modalVisible, setModalVisible, navigation}: ModalProps) => {
         <View>
           <MenuCollapse navigation={navigation} />
         </View>
+        <View>
+          <TouchableOpacity
+            onPress={async () => {
+              await AsyncStorage.removeItem('accessToken');
+              navigation.push('Login');
+            }}>
+            <Text style={styles.ButtonTextLogout}>Sair</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     </Modal>
   );
@@ -97,6 +105,12 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'flex-end',
+  },
+
+  ButtonTextLogout: {
+    padding: 15,
+    color: '#fff',
+    fontSize: 18,
   },
 });
 

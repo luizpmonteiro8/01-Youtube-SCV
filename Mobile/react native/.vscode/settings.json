@@ -1,4 +1,5 @@
 {
   "nuxt.isNuxtApp": false,
-  "java.configuration.updateBuildConfiguration": "disabled"
+  "java.configuration.updateBuildConfiguration": "disabled",
+  "java.compile.nullAnalysis.mode": "automatic"
 }

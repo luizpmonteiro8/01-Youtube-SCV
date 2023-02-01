@@ -2,17 +2,17 @@
 import React, {useEffect, useState} from 'react';
 import type {Node} from 'react';
 import {SafeAreaView, StyleSheet, TextInput, View} from 'react-native';
-import Toast from 'react-native-toast-message';
-import ModalComponent from '../../components/common/modal';
 import Menu from '../../components/menu';
-import {FlatListProduct} from './flat-list';
-import {useProductService} from '../../app/services/product.services';
+import {useClientService} from '../../app/services/client.services';
+import Toast from 'react-native-toast-message';
+import {FlatListClient} from './flat-list';
+import ModalComponent from '../../components/common/modal';
 
-const ProductListScreen: () => Node = ({navigation}) => {
-  const productService = useProductService();
-  const [productList, setProductList] = useState([]);
+const ClientListScreen: () => Node = ({navigation}) => {
+  const clientService = useClientService();
+  const [clientList, setClientList] = useState([]);
   const [modalRemove, setModalRemove] = useState(false);
-  const [productRemove, setProductRemove] = useState({});
+  const [clientRemove, setClientRemove] = useState({});
 
   const [page, setPage] = useState(0);
   const [size, setSize] = useState(10);
@@ -21,10 +21,10 @@ const ProductListScreen: () => Node = ({navigation}) => {
   const [sort, setSort] = useState('id');
 
   useEffect(() => {
-    productService
-      .loadPageProduct(page, size, search, order, sort)
+    clientService
+      .loadPageClient(page, size, search, order, sort)
       .then(res => {
-        setProductList(res.results);
+        setClientList(res.results);
       })
       .catch(error => {
         if (error.response.data.message) {
@@ -46,10 +46,10 @@ const ProductListScreen: () => Node = ({navigation}) => {
   const loadMoreItemPage = () => {
     setPage(page + 1);
 
-    productService
-      .loadPageProduct(page + 1, size, search, order, sort)
+    clientService
+      .loadPageClient(page + 1, size, search, order, sort)
       .then(res => {
-        setProductList(productList.concat(res.results));
+        setClientList(clientList.concat(res.results));
       })
       .catch(err => {});
   };
@@ -58,10 +58,10 @@ const ProductListScreen: () => Node = ({navigation}) => {
     setPage(0);
     setSearch(searchNow);
 
-    productService
-      .loadPageProduct(0, size, searchNow, order, sort)
+    clientService
+      .loadPageClient(0, size, searchNow, order, sort)
       .then(res => {
-        setProductList(res.results);
+        setClientList(res.results);
       })
       .catch(err => {});
   };
@@ -80,32 +80,32 @@ const ProductListScreen: () => Node = ({navigation}) => {
             }}
             placeholder="Buscar"
           />
-          <FlatListProduct
-            productList={productList}
+          <FlatListClient
+            clientList={clientList}
             loadMoreItemPage={loadMoreItemPage}
             setModalRemoveVisible={setModalRemove}
-            setProductRemove={setProductRemove}
+            setClientRemove={setClientRemove}
             navigation={navigation}
           />
         </View>
       </View>
       <ModalComponent
-        title={'Remover produto'}
-        message={`Deseja remover produto: ${productRemove.name} com id: ${productRemove.id}?`}
+        title={'Remover unidades'}
+        message={`Deseja remover unidade: ${clientRemove.name} com id: ${clientRemove.id}?`}
         modalVisible={modalRemove}
         onConfirm={() => {
-          productService
-            .remove(productRemove.id)
+          clientService
+            .remove(clientRemove.id)
             .then(_ => {
-              const newList = productList.filter(
-                item => item.id != productRemove.id,
+              const newList = clientList.filter(
+                item => item.id != clientRemove.id,
               );
-              setProductList(newList);
+              setClientList(newList);
               setModalRemove(false);
               Toast.show({
                 type: 'success',
                 text1: 'Removido',
-                text2: `Produto:${productRemove.name} com id: ${productRemove.id}, removido com sucesso. `,
+                text2: `Unidade:${clientRemove.name} com id: ${clientRemove.id}, removido com sucesso. `,
               });
             })
             .catch(error => {
@@ -144,4 +144,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ProductListScreen;
+export default ClientListScreen;

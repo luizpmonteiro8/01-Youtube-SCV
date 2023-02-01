@@ -3,12 +3,12 @@ import React, {useEffect, useState} from 'react';
 import type {Node} from 'react';
 import {SafeAreaView, StyleSheet, TextInput, View} from 'react-native';
 import Toast from 'react-native-toast-message';
-import {FlatListUnity} from './flat-list-unity';
-import {useUnityService} from '../../../app/services/unity.services';
+import {FlatListCategory} from './flat-list-category';
+import {useCategoryService} from '../../../app/services/category.services';
 
-const UnityListSelect: () => Node = ({navigation}) => {
-  const unityService = useUnityService();
-  const [unityList, setUnityList] = useState([]);
+const CategoryListSelect: () => Node = ({navigation}) => {
+  const categoryService = useCategoryService();
+  const [categoryList, setCategoryList] = useState([]);
 
   const [page, setPage] = useState(0);
   const [size, setSize] = useState(10);
@@ -17,10 +17,10 @@ const UnityListSelect: () => Node = ({navigation}) => {
   const [sort, setSort] = useState('id');
 
   useEffect(() => {
-    unityService
-      .loadPageUnity(page, size, search, order, sort)
+    categoryService
+      .loadPageCategory(page, size, search, order, sort)
       .then(res => {
-        setUnityList(res.results);
+        setCategoryList(res.results);
       })
       .catch(error => {
         if (error.response.data.message) {
@@ -42,10 +42,10 @@ const UnityListSelect: () => Node = ({navigation}) => {
   const loadMoreItemPage = () => {
     setPage(page + 1);
 
-    unityService
-      .loadPageUnity(page + 1, size, search, order, sort)
+    categoryService
+      .loadPageCategory(page + 1, size, search, order, sort)
       .then(res => {
-        setUnityList(unityList.concat(res.results));
+        setCategoryList(categoryList.concat(res.results));
       })
       .catch(err => {});
   };
@@ -54,10 +54,10 @@ const UnityListSelect: () => Node = ({navigation}) => {
     setPage(0);
     setSearch(searchNow);
 
-    unityService
-      .loadPageUnity(0, size, searchNow, order, sort)
+    categoryService
+      .loadPageCategory(0, size, searchNow, order, sort)
       .then(res => {
-        setUnityList(res.results);
+        setCategoryList(res.results);
       })
       .catch(err => {});
   };
@@ -73,8 +73,8 @@ const UnityListSelect: () => Node = ({navigation}) => {
             }}
             placeholder="Buscar"
           />
-          <FlatListUnity
-            unityList={unityList}
+          <FlatListCategory
+            categoryList={categoryList}
             loadMoreItemPage={loadMoreItemPage}
             navigation={navigation}
           />
@@ -97,4 +97,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default UnityListSelect;
+export default CategoryListSelect;

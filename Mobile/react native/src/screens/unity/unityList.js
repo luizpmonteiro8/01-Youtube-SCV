@@ -40,7 +40,6 @@ const UnityListScreen: () => Node = ({navigation}) => {
             text2: 'Ocorreu um erro inesperado',
           });
         }
-        console.log(error);
       });
   }, []);
 
@@ -52,9 +51,7 @@ const UnityListScreen: () => Node = ({navigation}) => {
       .then(res => {
         setUnityList(unityList.concat(res.results));
       })
-      .catch(err => {
-        console.log(err);
-      });
+      .catch(err => {});
   };
 
   const searchText = searchNow => {
@@ -66,9 +63,7 @@ const UnityListScreen: () => Node = ({navigation}) => {
       .then(res => {
         setUnityList(res.results);
       })
-      .catch(err => {
-        console.log(err);
-      });
+      .catch(err => {});
   };
 
   return (
@@ -114,9 +109,6 @@ const UnityListScreen: () => Node = ({navigation}) => {
               });
             })
             .catch(error => {
-              console.log(Object.keys(error.response));
-              console.log(error);
-              console.log(error.response.data.message);
               if (error.response.data.message) {
                 Toast.show({
                   type: 'error',

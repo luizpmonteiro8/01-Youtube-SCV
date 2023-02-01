@@ -7,28 +7,28 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import {useUnityService} from '../../app/services/unity.services';
+import {useCategoryService} from '../../app/services/category.services';
 import {Input} from '../../components/common/input';
 import Menu from '../../components/menu';
 import Toast from 'react-native-toast-message';
 import {Formik} from 'formik';
 import * as Yup from 'yup';
 
-const UnityRegistrationScreen = ({navigation, route}) => {
+const CategoryRegistrationScreen = ({navigation, route}) => {
   const initialValues = {id: null, name: ''};
-  const [unity, setUnity] = useState({id: null, name: ''});
+  const [category, setCategory] = useState({id: null, name: ''});
 
-  const unityService = useUnityService();
+  const categoryService = useCategoryService();
 
   useEffect(() => {
     if (route.params) {
-      setUnity(route.params);
+      setCategory(route.params);
     }
   }, []);
 
-  const saveOrUpdateUnity = values => {
+  const saveOrUpdateCategory = values => {
     if (Number(values.id) > 0) {
-      unityService
+      categoryService
         .update(values)
         .then(_ => {
           Toast.show({
@@ -36,7 +36,7 @@ const UnityRegistrationScreen = ({navigation, route}) => {
             text1: 'Atualizado',
             text2: 'Atualizado com sucesso.',
           });
-          navigation.push('UnityList');
+          navigation.push('CategoryList');
         })
         .catch(error => {
           if (error.response.data.message) {
@@ -55,7 +55,7 @@ const UnityRegistrationScreen = ({navigation, route}) => {
         });
     } else {
       delete values.id;
-      unityService
+      categoryService
         .create(values)
         .then(res => {
           Toast.show({
@@ -88,10 +88,10 @@ const UnityRegistrationScreen = ({navigation, route}) => {
         <Menu navigation={navigation} />
       </View>
       <Formik
-        initialValues={(initialValues, unity)}
+        initialValues={(initialValues, category)}
         enableReinitialize={true}
         onSubmit={values => {
-          saveOrUpdateUnity(values);
+          saveOrUpdateCategory(values);
         }}
         validationSchema={Yup.object({
           name: Yup.string()
@@ -113,7 +113,7 @@ const UnityRegistrationScreen = ({navigation, route}) => {
               <TouchableOpacity
                 onPress={() => {
                   resetForm();
-                  setUnity(initialValues);
+                  setCategory(initialValues);
                 }}>
                 <Text style={styles.ButtonTextCancel}>Limpar</Text>
               </TouchableOpacity>
@@ -151,4 +151,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default UnityRegistrationScreen;
+export default CategoryRegistrationScreen;

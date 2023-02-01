@@ -23,11 +23,29 @@ const MenuCollapse: () => Node = ({navigation}: Props) => {
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => {
+            navigation.navigate('CategoryRegistration');
+          }}>
+          <View style={styles.ViewCollapse}>
+            <Icon name="arrow-right" size={25} color="#fff" />
+            <Text style={styles.TextCollapse}>Categorias</Text>
+          </View>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => {
             navigation.navigate('ProductRegistration');
           }}>
           <View style={styles.ViewCollapse}>
             <Icon name="arrow-right" size={25} color="#fff" />
             <Text style={styles.TextCollapse}>Produtos</Text>
+          </View>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate('ClientRegistration');
+          }}>
+          <View style={styles.ViewCollapse}>
+            <Icon name="arrow-right" size={25} color="#fff" />
+            <Text style={styles.TextCollapse}>Clientes</Text>
           </View>
         </TouchableOpacity>
       </Collapse>
@@ -43,11 +61,29 @@ const MenuCollapse: () => Node = ({navigation}: Props) => {
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => {
+            navigation.push('CategoryList');
+          }}>
+          <View style={styles.ViewCollapse}>
+            <Icon name="arrow-right" size={25} color="#fff" />
+            <Text style={styles.TextCollapse}>Categorias</Text>
+          </View>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => {
             navigation.push('ProductList');
           }}>
           <View style={styles.ViewCollapse}>
             <Icon name="arrow-right" size={25} color="#fff" />
             <Text style={styles.TextCollapse}>Produtos</Text>
+          </View>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => {
+            navigation.push('ClientList');
+          }}>
+          <View style={styles.ViewCollapse}>
+            <Icon name="arrow-right" size={25} color="#fff" />
+            <Text style={styles.TextCollapse}>Clientes</Text>
           </View>
         </TouchableOpacity>
       </Collapse>

@@ -2,19 +2,18 @@ import React from 'react';
 import {PureComponent} from 'react';
 import {FlatList, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import {convertAmericanFromBrazil} from '../../components/common/util/formatNumber';
 
-export class FlatListProduct extends PureComponent {
+export class FlatListCategory extends PureComponent {
   render() {
     return (
       <FlatList
-        data={this.props.productList}
+        data={this.props.categoryList}
         renderItem={({item, index}) => (
           <RenderItem
             item={item}
             index={index}
             setModalRemoveVisible={this.props.setModalRemoveVisible}
-            setProductRemove={this.props.setProductRemove}
+            setCategoryRemove={this.props.setCategoryRemove}
             navigation={this.props.navigation}
           />
         )}
@@ -31,12 +30,12 @@ export class FlatListProduct extends PureComponent {
 class RenderItem extends PureComponent {
   render() {
     return (
-      <View style={styles.ItemRender} key={'productList' + this.props.item.id}>
+      <View style={styles.ItemRender} key={this.props.item.id}>
         <View style={styles.BodyItemRender}>
           <TouchableOpacity
             onPress={() => {
               this.props.navigation.push(
-                'ProductRegistration',
+                'CategoryRegistration',
                 this.props.item,
               );
             }}>
@@ -45,25 +44,12 @@ class RenderItem extends PureComponent {
             <Text style={styles.TextItemRender}>
               Nome:{this.props.item.name}
             </Text>
-            <Text style={styles.TextItemRender}>
-              Preço de venda: R$
-              {convertAmericanFromBrazil(this.props.item.priceSale)}
-            </Text>
-            <Text style={styles.TextItemRender}>
-              Unidade: {this.props.item.unity.name}
-            </Text>
-            <Text style={styles.TextItemRender}>Categorias:</Text>
-            {this.props.item.categories.map((category, index) => (
-              <Text style={styles.TextItemRender} key={'categoryList' + index}>
-                {index + 1 + ':' + category.name}
-              </Text>
-            ))}
           </TouchableOpacity>
         </View>
         <View style={styles.ActionItemRender}>
           <TouchableOpacity
             onPress={() => {
-              this.props.setProductRemove(this.props.item);
+              this.props.setCategoryRemove(this.props.item);
               this.props.setModalRemoveVisible(true);
             }}>
             <View style={styles.ViewCollapse}>
